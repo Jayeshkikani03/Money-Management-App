@@ -33,7 +33,7 @@ const TotalView = ({ transactions, month, year }) => {
         return `₹ ${amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     };
 
-    const comparedExpensePercent = 53; // Placeholder - calculate from previous month
+
 
     return (
         <div className="total-view">
@@ -58,17 +58,6 @@ const TotalView = ({ transactions, month, year }) => {
                 </div>
             </div>
 
-            {/* Budget Section */}
-            <div className="total-section budget-section">
-                <div className="section-header">
-                    <div className="section-icon">📊</div>
-                    <h3>Budget</h3>
-                </div>
-                <button className="budget-setting-btn">
-                    Budget Setting →
-                </button>
-            </div>
-
             {/* Accounts Section */}
             <div className="total-section accounts-section">
                 <div className="section-header">
@@ -80,13 +69,16 @@ const TotalView = ({ transactions, month, year }) => {
                 </div>
 
                 <div className="account-items">
+                    {/* Placeholder for future comparison feature - hidden for now if not implemented */}
+                    {/* 
                     <div className="account-item">
                         <span className="account-label">Compared Expenses (Last year)</span>
                         <span className="account-value">{comparedExpensePercent}%</span>
                     </div>
+                    */}
 
                     <div className="account-item">
-                        <span className="account-label">Expenses (Cash, Accounts)</span>
+                        <span className="account-label">Expenses (Cash & Accounts)</span>
                         <span className="account-value">{formatCurrency(totals.cashExpense)}</span>
                     </div>
 
@@ -96,7 +88,7 @@ const TotalView = ({ transactions, month, year }) => {
                     </div>
 
                     <div className="account-item">
-                        <span className="account-label">Transfer (Cash, Accounts → )</span>
+                        <span className="account-label">Transfers (All Accounts)</span>
                         <span className="account-value">{formatCurrency(totals.transfer)}</span>
                     </div>
                 </div>

@@ -112,6 +112,34 @@ const updateDestinationAccount = async (accountType, accountId, amount) => {
 };
 
 /**
+ * Revert a transfer (undo balances)
+ */
+export const revertTransfer = async (transferData) => {
+    const amount = parseFloat(transferData.amount);
+
+    console.log('Reverting transfer:', transferData);
+
+    // Revert Source: Add back amount
+    if (transferData.fromType === ACCOUNT_TYPES.CASH) {
+        updateCashBalance(amount, 'add');
+    } else if (transferData.fromType === ACCOUNT_TYPES.BANK) {
+        accountService.updateBankBalance(transferData.fromId, amount, 'add');
+    }
+
+    // Revert Destination: Subtract amount (or add back to used for credit)
+    if (transferData.toType === ACCOUNT_TYPES.CASH) {
+        updateCashBalance(amount, 'subtract');
+    } else if (transferData.toType === ACCOUNT_TYPES.BANK) {
+        accountService.updateBankBalance(transferData.toId, amount, 'subtract');
+    } else if (transferData.toType === ACCOUNT_TYPES.CREDIT) {
+        // Payment was made (used reduced), so add it back to used
+        cardService.updateCardUsedAmount(transferData.toId, amount, 'add');
+    }
+
+    return true;
+};
+
+/**
  * ATM Withdrawal: Bank → Cash
  */
 export const atmWithdrawal = async (bankAccountId, amount, metadata = {}) => {
@@ -232,5 +260,6 @@ export default {
     cashDeposit,
     billPayment,
     cashAdvance,
-    bankToBankTransfer
+    bankToBankTransfer,
+    revertTransfer
 };

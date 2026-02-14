@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { useApp } from '../context/AppContext';
-import { Edit2, Trash2, Search } from 'lucide-react';
+import { Edit2, Trash2, Search, Lock } from 'lucide-react';
 import { formatCurrency, formatDate, sortTransactionsByDate } from '../utils/helpers';
+import { TRANSACTION_TYPES } from '../constants/accountTypes';
 import Button from './ui/Button';
 import './TransactionList.css';
 
@@ -109,13 +110,23 @@ const TransactionList = ({ onEdit }) => {
                                     {formatCurrency(transaction.amount)}
                                 </div>
                                 <div className="transaction-actions">
-                                    <button
-                                        className="action-button"
-                                        onClick={() => onEdit(transaction)}
-                                        title="Edit"
-                                    >
-                                        <Edit2 size={16} />
-                                    </button>
+                                    {transaction.type === TRANSACTION_TYPES.TRANSFER ? (
+                                        <button
+                                            className="action-button disabled"
+                                            title="Transfers cannot be edited here"
+                                            disabled
+                                        >
+                                            <Lock size={16} />
+                                        </button>
+                                    ) : (
+                                        <button
+                                            className="action-button"
+                                            onClick={() => onEdit(transaction)}
+                                            title="Edit"
+                                        >
+                                            <Edit2 size={16} />
+                                        </button>
+                                    )}
                                     <button
                                         className="action-button delete"
                                         onClick={() => handleDelete(transaction.id)}

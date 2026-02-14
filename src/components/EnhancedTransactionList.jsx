@@ -1,8 +1,10 @@
 import React, { useMemo } from 'react';
 import { useApp } from '../context/AppContext';
 import CategoryIcon from './CategoryIcon';
+import { Lock } from 'lucide-react';
 import { formatCurrency, formatDate } from '../utils/helpers';
 import { getAccountDisplayName } from '../services/accountTransactionService';
+import { TRANSACTION_TYPES } from '../constants/accountTypes';
 import './EnhancedTransactionList.css';
 
 const EnhancedTransactionList = ({ transactions, onTransactionClick }) => {
@@ -51,34 +53,43 @@ const EnhancedTransactionList = ({ transactions, onTransactionClick }) => {
                         <span className="group-count">{group.transactions.length} transactions</span>
                     </div>
                     <div className="group-items">
-                        {group.transactions.map(transaction => (
-                            <div
-                                key={transaction.id}
-                                className="enhanced-transaction-item"
-                                onClick={() => onTransactionClick?.(transaction)}
-                            >
-                                <CategoryIcon
-                                    category={transaction.category}
-                                    type={transaction.type}
-                                />
-                                <div className="transaction-details">
-                                    <div className="transaction-title">{transaction.category}</div>
-                                    {transaction.notes && (
-                                        <div className="transaction-note">{transaction.notes}</div>
-                                    )}
-                                    <div className="transaction-account">
-                                        {getAccountDisplayName(transaction.accountType, transaction.accountId)}
-                                        {transaction.type === 'transfer' && transaction.toAccountType && (
-                                            ` → ${getAccountDisplayName(transaction.toAccountType, transaction.toAccountId)}`
+                        {group.transactions.map(transaction => {
+                            const isTransfer = transaction.type === TRANSACTION_TYPES.TRANSFER;
+                            return (
+                                <div
+                                    key={transaction.id}
+                                    className={`enhanced-transaction-item ${isTransfer ? 'transfer-item' : ''}`}
+                                    onClick={() => !isTransfer && onTransactionClick?.(transaction)}
+                                    title={isTransfer ? "Transfers cannot be edited here" : "Edit transaction"}
+                                >
+                                    <div className="icon-wrapper">
+                                        <CategoryIcon
+                                            category={transaction.category}
+                                            type={transaction.type}
+                                        />
+                                        {isTransfer && <div className="lock-badge"><Lock size={10} /></div>}
+                                    </div>
+                                    <div className="transaction-details">
+                                        <div className="transaction-title">
+                                            {transaction.category}
+                                        </div>
+                                        {transaction.notes && (
+                                            <div className="transaction-note">{transaction.notes}</div>
                                         )}
+                                        <div className="transaction-account">
+                                            {getAccountDisplayName(transaction.accountType, transaction.accountId)}
+                                            {transaction.type === 'transfer' && transaction.toAccountType && (
+                                                ` → ${getAccountDisplayName(transaction.toAccountType, transaction.toAccountId)}`
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className={`transaction-amount ${transaction.type}`}>
+                                        {transaction.type === 'income' ? '+' : transaction.type === 'expense' ? '-' : ''}
+                                        {formatCurrency(transaction.amount, settings.currency)}
                                     </div>
                                 </div>
-                                <div className={`transaction-amount ${transaction.type}`}>
-                                    {transaction.type === 'income' ? '+' : transaction.type === 'expense' ? '-' : ''}
-                                    {formatCurrency(transaction.amount, settings.currency)}
-                                </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
             ))}

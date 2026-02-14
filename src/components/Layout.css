@@ -1,3 +1,8 @@
+/**
+ * Layout Styles
+ * Main app layout with header, sidebar, content, and bottom nav
+ */
+
 .app-layout {
     min-height: 100vh;
     display: flex;
@@ -5,15 +10,90 @@
     background-color: var(--color-background);
 }
 
+/* Header */
+.layout-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    height: 60px;
+}
+
+.hamburger-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-primary);
+    padding: 8px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+}
+
+.hamburger-btn:hover {
+    background: var(--color-background);
+}
+
+.app-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.app-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--color-text-primary);
+}
+
+/* Main Content */
 .main-content {
     flex: 1;
     padding-bottom: 80px;
-    /* Space for bottom nav */
-    padding-top: var(--spacing-lg);
+    /* Space for bottom nav + safe area */
+    padding-top: var(--spacing-md);
+    min-height: calc(100vh - 60px - 80px);
+    /* viewport - header - bottom nav */
 }
 
-@media (max-width: 640px) {
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+}
+
+/* Desktop - Hide hamburger, show sidebar */
+@media (min-width: 1024px) {
+    .hamburger-btn {
+        display: none;
+    }
+
     .main-content {
-        padding-top: var(--spacing-md);
+        margin-left: 280px;
+        /* Sidebar width */
+        padding-bottom: var(--spacing-lg);
+        /* No bottom nav on desktop */
+    }
+}
+
+/* Mobile - Smaller padding */
+@media (max-width: 640px) {
+    .layout-header {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .app-title {
+        font-size: 16px;
     }
 }

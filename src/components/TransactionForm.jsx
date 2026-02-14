@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
+import { useToast } from '../context/ToastContext';
+import { validatePositive, validateRequired } from '../utils/validationUtils';
 import CalculatorInput from './CalculatorInput';
 import Input from './ui/Input';
 import Select from './ui/Select';
@@ -18,6 +20,7 @@ import './TransactionForm.css';
 
 const TransactionForm = ({ transaction, onClose, onSuccess }) => {
     const { addTransaction, updateTransaction, categories } = useApp();
+    const { success, error } = useToast();
     const [formData, setFormData] = useState({
         amount: '',
         type: 'expense',
@@ -158,15 +161,18 @@ const TransactionForm = ({ transaction, onClose, onSuccess }) => {
 
             if (transaction) {
                 await updateTransaction({ ...transactionData, id: transaction.id });
+                success('Transaction updated successfully!');
             } else {
                 await addTransaction(transactionData);
+                success('Transaction added successfully!');
             }
 
             onSuccess?.();
             onClose();
-        } catch (error) {
-            console.error('Failed to save transaction:', error);
-            setErrors({ submit: 'Failed to save transaction' });
+        } catch (err) {
+            console.error('Failed to save transaction:', err);
+            error(err.message || 'Failed to save transaction');
+            setErrors({ submit: err.message || 'Failed to save transaction' });
         } finally {
             setLoading(false);
         }

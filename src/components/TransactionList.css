@@ -144,6 +144,18 @@
     color: var(--color-expense);
 }
 
+.action-button.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    color: var(--color-text-tertiary);
+    pointer-events: none;
+}
+
+.action-button.disabled:hover {
+    background-color: transparent;
+    color: var(--color-text-tertiary);
+}
+
 .empty-state {
     text-align: center;
     padding: var(--spacing-xl);

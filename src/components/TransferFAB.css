@@ -1,0 +1,73 @@
+/**
+ * Transfer FAB Styles
+ * Floating action button for quick transfers
+ */
+
+.transfer-fab {
+    position: fixed;
+    bottom: 90px;
+    /* Above bottom nav */
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-fixed);
+    transition: all var(--transition-normal);
+}
+
+.transfer-fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.transfer-fab:active {
+    transform: scale(0.95);
+}
+
+/* Pulse animation on load */
+.transfer-fab {
+    animation: pulse 2s infinite;
+}
+
+.transfer-fab:hover {
+    animation: none;
+}
+
+/* Desktop - Position differently */
+@media (min-width: 1024px) {
+    .transfer-fab {
+        bottom: 30px;
+        right: 30px;
+    }
+}
+
+/* Mobile - Smaller on very small screens */
+@media (max-width: 375px) {
+    .transfer-fab {
+        width: 48px;
+        height: 48px;
+        bottom: 80px;
+        right: 16px;
+    }
+}
+
+/* Safe area handling */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+    .transfer-fab {
+        bottom: calc(90px + env(safe-area-inset-bottom));
+    }
+
+    @media (min-width: 1024px) {
+        .transfer-fab {
+            bottom: 30px;
+        }
+    }
+}

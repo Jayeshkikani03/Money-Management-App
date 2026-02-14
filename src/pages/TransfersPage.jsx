@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { ACCOUNT_TYPES, ACCOUNT_TYPE_ICONS } from '../constants/accountTypes';
 import { getAccountDetails } from '../services/accountTransactionService';
+import Modal from '../components/ui/Modal';
+import TransferForm from '../components/TransferForm';
+import { Edit2 } from 'lucide-react';
 import './TransfersPage.css';
 
 /**
@@ -11,6 +14,18 @@ import './TransfersPage.css';
 const TransfersPage = () => {
     const { transactions } = useApp();
     const [filter, setFilter] = useState('all');
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [editingTransfer, setEditingTransfer] = useState(null);
+
+    const handleEditClick = (transfer) => {
+        setEditingTransfer(transfer);
+        setShowEditModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowEditModal(false);
+        setEditingTransfer(null);
+    };
 
     // Get all transfer transactions
     const transfers = transactions.filter(t => t.type === 'transfer');
@@ -103,6 +118,13 @@ const TransfersPage = () => {
                                     </div>
                                     <div className="transfer-amount">
                                         ₹{transfer.amount.toFixed(2)}
+                                        <button
+                                            className="edit-transfer-btn"
+                                            onClick={() => handleEditClick(transfer)}
+                                            title="Edit Transfer"
+                                        >
+                                            <Edit2 size={16} />
+                                        </button>
                                     </div>
                                 </div>
 
@@ -141,6 +163,18 @@ const TransfersPage = () => {
                     })}
                 </div>
             )}
+
+            <Modal
+                isOpen={showEditModal}
+                onClose={handleCloseModal}
+                title="Edit Transfer"
+            >
+                <TransferForm
+                    editingTransfer={editingTransfer}
+                    onClose={handleCloseModal}
+                    onSuccess={handleCloseModal}
+                />
+            </Modal>
         </div>
     );
 };

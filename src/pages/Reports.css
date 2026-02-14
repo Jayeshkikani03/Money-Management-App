@@ -1,3 +1,8 @@
+/**
+ * Reports Page Styles
+ * Chart containers and responsive layout
+ */
+
 .reports-page {
     padding-bottom: var(--spacing-lg);
 }
@@ -11,6 +16,39 @@
     grid-column: 1 / -1;
 }
 
+/* Chart Container Overflow Fixes */
+.chart-container {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    padding: var(--spacing-md);
+}
+
+.chart-wrapper {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}
+
+/* Chart Label Fixes */
+.recharts-text,
+.recharts-label {
+    font-size: 12px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100px;
+}
+
+.recharts-legend-item-text {
+    font-size: 13px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+
+/* Subscriptions List */
 .subscriptions-list {
     display: flex;
     flex-direction: column;
@@ -43,8 +81,25 @@
     color: var(--color-expense);
 }
 
+/* Responsive */
 @media (min-width: 768px) {
     .reports-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .chart-wrapper {
+        height: 350px;
+    }
+}
+
+@media (max-width: 640px) {
+    .chart-wrapper {
+        height: 250px;
+    }
+
+    .recharts-text,
+    .recharts-label {
+        font-size: 10px !important;
+        max-width: 60px;
     }
 }

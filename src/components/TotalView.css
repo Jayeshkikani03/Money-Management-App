@@ -1,16 +1,20 @@
 .total-view {
     padding: 0;
-    background: var(--color-background);
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .total-section {
     background: var(--color-card);
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 16px;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--color-border);
 }
 
-/* Year Summary Section */
+/* Year Summary Section - REVERTED TO OLD STYLE */
 .year-summary {
     background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
     color: white;
@@ -58,94 +62,97 @@
     color: #f87171;
 }
 
-.section-header {
+/* Accounts Section - KEEP NEW STYLE */
+.accounts-section .section-header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 12px;
+    gap: 10px;
+    margin-bottom: 8px;
 }
 
 .section-icon {
-    font-size: 20px;
+    font-size: 1.2rem;
 }
 
 .section-header h3 {
     margin: 0;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--color-text);
-}
-
-.budget-setting-btn {
-    width: 100%;
-    padding: 12px;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
-    color: var(--color-text);
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-}
-
-.budget-setting-btn:hover {
-    background: var(--color-hover);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
 }
 
 .date-range {
-    font-size: 13px;
-    color: var(--color-text-secondary);
-    margin-bottom: 12px;
+    font-size: 0.85rem;
+    color: var(--color-text-tertiary);
+    margin-bottom: 20px;
+    margin-left: 2px;
 }
 
 .account-items {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
 }
 
 .account-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 12px;
+    padding: 16px;
+    background: var(--color-background);
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+    transition: all 0.2s ease;
+}
+
+.account-item:hover {
+    border-color: var(--color-primary);
     background: var(--color-surface);
-    border-radius: 6px;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
 }
 
 .account-label {
-    font-size: 13px;
+    font-size: 0.95rem;
     color: var(--color-text-secondary);
+    font-weight: 500;
 }
 
 .account-value {
-    font-size: 14px;
+    font-size: 0.95rem;
     font-weight: 600;
-    color: var(--color-text);
+    color: var(--color-text-primary);
 }
 
 .export-btn {
     width: 100%;
-    padding: 12px;
-    background: var(--color-success);
-    border: none;
-    border-radius: 6px;
-    color: white;
-    font-size: 14px;
-    font-weight: 500;
+    padding: 14px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-primary);
+    border-radius: 12px;
+    color: var(--color-primary);
+    font-size: 0.95rem;
+    font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    transition: opacity 0.2s ease;
+    gap: 10px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .export-btn:hover {
-    opacity: 0.9;
+    background: var(--color-primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+
+.export-btn:active {
+    transform: translateY(0);
 }
 
 .excel-icon {
-    font-size: 18px;
+    font-size: 1.1rem;
 }

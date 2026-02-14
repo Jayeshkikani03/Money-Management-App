@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
+import { useCurrency } from '../hooks/useCurrency';
 import BalanceCard from '../components/BalanceCard';
 import TransactionForm from '../components/TransactionForm';
 import FloatingActionButton from '../components/FloatingActionButton';
 import CategoryIcon from '../components/CategoryIcon';
 import Modal from '../components/ui/Modal';
 import Card from '../components/ui/Card';
-import { formatCurrency, formatDate, getCurrentMonthYear } from '../utils/helpers';
+import { formatDate, getCurrentMonthYear } from '../utils/helpers';
 import { getAccountDisplayName } from '../services/accountTransactionService';
 import AccountsOverview from '../components/AccountsOverview';
 import './Dashboard.css';
 
 const Dashboard = () => {
-    const { transactions, getMonthlyTrends, settings } = useApp();
+    const { transactions, getMonthlyTrends } = useApp();
+    const { format } = useCurrency();
     const [showAddModal, setShowAddModal] = useState(false);
     const { month, year } = getCurrentMonthYear();
 
@@ -49,7 +51,7 @@ const Dashboard = () => {
                                     </div>
                                     <div className={`transaction-amount ${transaction.type}`}>
                                         {transaction.type === 'income' ? '+' : transaction.type === 'expense' ? '-' : ''}
-                                        {formatCurrency(transaction.amount, settings.currency)}
+                                        {format(transaction.amount)}
                                     </div>
                                 </div>
                             ))}

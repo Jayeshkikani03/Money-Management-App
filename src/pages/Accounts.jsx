@@ -2,37 +2,36 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeftRight } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { useCurrency } from '../hooks/useCurrency';
+import { safeNumber, safeSum } from '../utils/numberUtils';
 import { ACCOUNT_TYPES, ACCOUNT_TYPE_ICONS } from '../constants/accountTypes';
 import * as accountService from '../services/accountService';
 import * as cardService from '../services/cardService';
 import AddBankAccountForm from '../components/AddBankAccountForm';
 import AddCreditCardForm from '../components/AddCreditCardForm';
 import TransferForm from '../components/TransferForm';
+import TransferFAB from '../components/TransferFAB';
 import Modal from '../components/ui/Modal';
 import './Accounts.css';
 
 const Accounts = () => {
     const navigate = useNavigate();
     const { bankAccounts, creditCards, transactions } = useApp();
+    const { format } = useCurrency();
     const [activeTab, setActiveTab] = useState(ACCOUNT_TYPES.CASH);
     const [showAddBankModal, setShowAddBankModal] = useState(false);
     const [showAddCardModal, setShowAddCardModal] = useState(false);
     const [showTransferModal, setShowTransferModal] = useState(false);
 
-    // Calculate Cash Balance
+    // Calculate Cash Balance with safe number operations
     const calculateCashBalance = () => {
-        return transactions
+        const amounts = transactions
             .filter(t => !t.accountType || t.accountType === ACCOUNT_TYPES.CASH)
-            .reduce((acc, t) => {
-                return t.type === 'income' ? acc + t.amount : acc - t.amount;
-            }, 0);
+            .map(t => t.type === 'income' ? safeNumber(t.amount) : -safeNumber(t.amount));
+        return safeSum(amounts);
     };
 
     const cashBalance = calculateCashBalance();
-
-    const formatCurrency = (amount) => {
-        return `₹${amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    };
 
     const renderCashTab = () => (
         <div className="account-list">
@@ -48,7 +47,7 @@ const Accounts = () => {
                 </div>
                 <div className="account-balance">
                     <div className="balance-label">Current Balance</div>
-                    <div className="balance-amount">{formatCurrency(cashBalance)}</div>
+                    <div className="balance-amount">{format(cashBalance)}</div>
                 </div>
             </div>
             <div className="info-box">
@@ -91,7 +90,7 @@ const Accounts = () => {
                                 </div>
                                 <div className="account-balance">
                                     <div className="balance-label">Balance</div>
-                                    <div className="balance-amount">{formatCurrency(account.balance)}</div>
+                                    <div className="balance-amount">{format(account.balance)}</div>
                                 </div>
                             </div>
                         ))}
@@ -156,15 +155,15 @@ const Accounts = () => {
                                         <div className="usage-stats">
                                             <div className="stat-item">
                                                 <span className="stat-label">Used</span>
-                                                <span className="stat-value">{formatCurrency(card.usedAmount)}</span>
+                                                <span className="stat-value">{format(card.usedAmount)}</span>
                                             </div>
                                             <div className="stat-item right">
                                                 <span className="stat-label">Limit</span>
-                                                <span className="stat-value">{formatCurrency(card.creditLimit)}</span>
+                                                <span className="stat-value">{format(card.creditLimit)}</span>
                                             </div>
                                         </div>
                                         <div className="available-credit">
-                                            Available: {formatCurrency(remainingCredit)}
+                                            Available: {format(remainingCredit)}
                                         </div>
                                     </div>
                                 </div>
@@ -253,6 +252,9 @@ const Accounts = () => {
                     onClose={() => setShowTransferModal(false)}
                 />
             </Modal>
+
+            {/* Transfer FAB for quick access */}
+            <TransferFAB />
         </div>
     );
 };

@@ -78,6 +78,8 @@ const CalculatorInput = ({
     };
 
     const handleInputClick = () => {
+        if (showCalculator) return; // Prevent resetting if already open
+
         // Reset expression when opening calculator
         setExpression('');
         setCalculatedValue(null);

@@ -339,6 +339,55 @@ export const AppProvider = ({ children }) => {
         }
     };
 
+    const updateTransfer = async (id, updatedData) => {
+        try {
+            // 1. Find original transaction
+            const originalTransaction = transactions.find(t => t.id === id);
+            if (!originalTransaction) throw new Error('Transfer not found');
+
+            // 2. Revert original transfer
+            await transferService.revertTransfer({
+                fromType: originalTransaction.fromAccountType,
+                fromId: originalTransaction.fromAccountId,
+                toType: originalTransaction.toAccountType,
+                toId: originalTransaction.toAccountId,
+                amount: originalTransaction.amount
+            });
+
+            // 3. Execute new transfer
+            const beforeBalances = transferService.captureBalances(updatedData);
+            const result = await transferService.executeTransfer(updatedData);
+
+            // 4. Update transaction record
+            const updatedTransaction = {
+                ...originalTransaction,
+                amount: parseFloat(updatedData.amount),
+                date: new Date(updatedData.date).toISOString(),
+                notes: updatedData.notes,
+                fromAccountType: updatedData.fromType,
+                fromAccountId: updatedData.fromId,
+                toAccountType: updatedData.toType,
+                toAccountId: updatedData.toId,
+                beforeBalance: beforeBalances.from,
+                afterBalance: result.afterBalances.from,
+                updatedAt: new Date().toISOString()
+            };
+
+            await storageService.updateTransaction(updatedTransaction);
+            setTransactions(prev => prev.map(t => t.id === id ? updatedTransaction : t));
+
+            // Refresh all account states
+            setBankAccounts(accountService.getAllBankAccounts());
+            setCreditCards(cardService.getAllCreditCards());
+            setCashAccount(cashService.getCashAccount());
+
+            return updatedTransaction;
+        } catch (err) {
+            console.error('Failed to update transfer:', err);
+            throw err;
+        }
+    };
+
     const value = {
         // State
         transactions,
@@ -356,6 +405,7 @@ export const AppProvider = ({ children }) => {
         updateTransaction,
         deleteTransaction,
         addTransfer,
+        updateTransfer,
 
         // Category operations
         addCategory,

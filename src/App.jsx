@@ -12,6 +12,7 @@ import BillsPage from './pages/BillsPage';
 import RecurringManagementPage from './pages/RecurringManagementPage';
 import BankAccountDetail from './pages/BankAccountDetail';
 import CreditCardDetail from './pages/CreditCardDetail';
+import CashAccountDetail from './pages/CashAccountDetail';
 import Settings from './pages/Settings';
 import './styles/reset.css';
 import './styles/global.css';
@@ -32,6 +33,7 @@ function App() {
                         <Route path="bills" element={<BillsPage />} />
                         <Route path="recurring-management" element={<RecurringManagementPage />} />
                         <Route path="accounts" element={<Accounts />} />
+                        <Route path="accounts/cash" element={<CashAccountDetail />} />
                         <Route path="accounts/bank/:id" element={<BankAccountDetail />} />
                         <Route path="accounts/credit/:id" element={<CreditCardDetail />} />
                         <Route path="reports" element={<Reports />} />

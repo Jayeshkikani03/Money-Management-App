@@ -8,17 +8,40 @@
 
 /* Root Variables */
 :root {
-    /* Colors */
+    /* Primary Colors */
     --color-primary: #2563EB;
     --color-primary-hover: #1D4ED8;
+    --color-primary-light: #DBEAFE;
+
+    /* Status Colors */
     --color-success: #16A34A;
+    --color-success-light: #DCFCE7;
     --color-danger: #DC2626;
+    --color-danger-light: #FEE2E2;
     --color-warning: #F59E0B;
+    --color-warning-light: #FEF3C7;
+    --color-info: #0EA5E9;
+    --color-info-light: #E0F2FE;
+
+    /* Background Colors */
     --color-background: #F8FAFC;
     --color-surface: #FFFFFF;
+    --color-surface-hover: #F1F5F9;
+
+    /* Border Colors */
     --color-border: #E2E8F0;
+    --color-border-hover: #CBD5E1;
+
+    /* Text Colors */
     --color-text-primary: #0F172A;
     --color-text-secondary: #64748B;
+    --color-text-tertiary: #94A3B8;
+    --color-text-inverse: #FFFFFF;
+    --color-text-disabled: #CBD5E1;
+
+    /* Income/Expense Colors */
+    --color-income: #16A34A;
+    --color-expense: #DC2626;
 
     /* Spacing */
     --spacing-xs: 4px;
@@ -26,28 +49,64 @@
     --spacing-md: 16px;
     --spacing-lg: 24px;
     --spacing-xl: 32px;
+    --spacing-xxl: 48px;
 
     /* Border Radius */
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 20px;
+    --radius-full: 9999px;
 
     /* Shadows */
     --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.05);
     --shadow-modal: 0 8px 30px rgba(0, 0, 0, 0.15);
+    --shadow-dropdown: 0 10px 25px rgba(0, 0, 0, 0.1);
 
     /* Transitions */
     --transition-fast: 150ms ease;
     --transition-normal: 250ms ease;
+    --transition-slow: 350ms ease;
+
+    /* Z-Index */
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-toast: 9999;
 }
 
 /* Dark Mode */
 [data-theme="dark"] {
+    /* Background Colors */
     --color-background: #0F172A;
     --color-surface: #1E293B;
+    --color-surface-hover: #334155;
+
+    /* Border Colors */
     --color-border: #334155;
+    --color-border-hover: #475569;
+
+    /* Text Colors */
     --color-text-primary: #F1F5F9;
     --color-text-secondary: #CBD5E1;
+    --color-text-tertiary: #94A3B8;
+    --color-text-inverse: #0F172A;
+    --color-text-disabled: #64748B;
+
+    /* Primary Colors (slightly adjusted for dark mode) */
+    --color-primary-light: #1E3A8A;
+
+    /* Status Colors (adjusted for dark mode) */
+    --color-success-light: #14532D;
+    --color-danger-light: #7F1D1D;
+    --color-warning-light: #78350F;
+    --color-info-light: #0C4A6E;
+
+    /* Shadows (darker for dark mode) */
+    --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.3);
+    --shadow-modal: 0 8px 30px rgba(0, 0, 0, 0.5);
+    --shadow-dropdown: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
 /* Global Styles */

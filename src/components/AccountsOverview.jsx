@@ -1,24 +1,48 @@
 import React, { useMemo } from 'react';
 import { useApp } from '../context/AppContext';
-import { formatCurrency } from '../utils/helpers';
+import { useCurrency } from '../hooks/useCurrency';
+import { safeNumber, safeSum } from '../utils/numberUtils';
 import { getAccountTotals } from '../services/accountTransactionService';
 import { ACCOUNT_TYPES } from '../constants/accountTypes';
-import { Wallet, Landmark, CreditCard, DollarSign } from 'lucide-react';
+import { Wallet, Landmark, CreditCard, DollarSign, IndianRupee, Euro, PoundSterling, Coins } from 'lucide-react';
 import './AccountsOverview.css';
 
 const AccountsOverview = () => {
-    const { transactions, bankAccounts, creditCards, settings } = useApp();
+    const { transactions, bankAccounts, creditCards } = useApp();
+    const { format, currency } = useCurrency();
+
+    // Dynamic currency icon based on selected currency
+    const getCurrencyIcon = () => {
+        const iconProps = { size: 24 };
+        switch (currency) {
+            case 'INR':
+                return <IndianRupee {...iconProps} />;
+            case 'USD':
+            case 'CAD':
+            case 'AUD':
+            case 'NZD':
+                return <DollarSign {...iconProps} />;
+            case 'EUR':
+                return <Euro {...iconProps} />;
+            case 'GBP':
+                return <PoundSterling {...iconProps} />;
+            default:
+                return <Coins {...iconProps} />;
+        }
+    };
 
     const totals = useMemo(() => {
-        // Cash Balance
+        // Cash Balance with safe operations
         const cashStats = getAccountTotals(transactions, ACCOUNT_TYPES.CASH);
-        const cashBalance = cashStats.balance;
+        const cashBalance = safeNumber(cashStats.balance);
 
-        // Bank Balance
-        const bankBalance = bankAccounts.reduce((acc, account) => acc + account.balance, 0);
+        // Bank Balance with safe operations
+        const bankBalances = bankAccounts.map(account => safeNumber(account.balance));
+        const bankBalance = safeSum(bankBalances);
 
-        // Credit Card Debt (Used Amount)
-        const creditDebt = creditCards.reduce((acc, card) => acc + card.usedAmount, 0);
+        // Credit Card Debt (Used Amount) with safe operations
+        const creditDebts = creditCards.map(card => safeNumber(card.usedAmount));
+        const creditDebt = safeSum(creditDebts);
 
         // Net Worth
         const netWorth = cashBalance + bankBalance - creditDebt;
@@ -35,12 +59,12 @@ const AccountsOverview = () => {
         <div className="accounts-overview">
             <div className="overview-card net-worth">
                 <div className="overview-icon-wrapper">
-                    <DollarSign size={24} />
+                    {getCurrencyIcon()}
                 </div>
                 <div className="overview-content">
                     <span className="overview-label">Net Worth</span>
                     <span className={`overview-amount ${totals.netWorth >= 0 ? 'positive' : 'negative'}`}>
-                        {formatCurrency(totals.netWorth, settings.currency)}
+                        {format(totals.netWorth)}
                     </span>
                 </div>
             </div>
@@ -53,7 +77,7 @@ const AccountsOverview = () => {
                         </div>
                         <span className="overview-label">Cash</span>
                     </div>
-                    <span className="overview-amount">{formatCurrency(totals.cash, settings.currency)}</span>
+                    <span className="overview-amount">{format(totals.cash)}</span>
                 </div>
 
                 <div className="overview-card small">
@@ -63,7 +87,7 @@ const AccountsOverview = () => {
                         </div>
                         <span className="overview-label">Bank</span>
                     </div>
-                    <span className="overview-amount">{formatCurrency(totals.bank, settings.currency)}</span>
+                    <span className="overview-amount">{format(totals.bank)}</span>
                 </div>
 
                 <div className="overview-card small">
@@ -73,7 +97,7 @@ const AccountsOverview = () => {
                         </div>
                         <span className="overview-label">Credit Used</span>
                     </div>
-                    <span className="overview-amount negative">-{formatCurrency(totals.credit, settings.currency)}</span>
+                    <span className="overview-amount negative">-{format(totals.credit)}</span>
                 </div>
             </div>
         </div>

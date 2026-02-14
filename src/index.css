@@ -1,3 +1,5 @@
+@import './styles/animations.css';
+
 :root {
   /* Light Mode Colors */
   --color-primary: #16A34A;

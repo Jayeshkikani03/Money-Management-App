@@ -1,4 +1,5 @@
 import { filterTransactionsByMonth, groupByCategory } from '../utils/helpers';
+import { safeNumber, safeSum, safeDivide, safePercentage } from '../utils/numberUtils';
 
 /**
  * Analytics Service
@@ -10,21 +11,24 @@ const analyticsService = {
      * CRITICAL: Only includes income and expense types, transfers are excluded
      */
     calculateBalance(transactions) {
-        const income = transactions
+        const incomeAmounts = transactions
             .filter(t => t.type === 'income')
-            .reduce((sum, t) => sum + t.amount, 0);
+            .map(t => safeNumber(t.amount));
 
-        const expense = transactions
+        const expenseAmounts = transactions
             .filter(t => t.type === 'expense')
-            .reduce((sum, t) => sum + t.amount, 0);
+            .map(t => safeNumber(t.amount));
+
+        const totalIncome = safeSum(incomeAmounts);
+        const totalExpense = safeSum(expenseAmounts);
 
         // Transfers are automatically excluded by filtering only 'income' and 'expense' types
         // This prevents double-counting in financial reports
 
         return {
-            balance: income - expense,
-            totalIncome: income,
-            totalExpense: expense
+            balance: totalIncome - totalExpense,
+            totalIncome,
+            totalExpense
         };
     },
 
@@ -46,12 +50,25 @@ const analyticsService = {
 
         const grouped = groupByCategory(filtered);
 
-        return Object.entries(grouped).map(([category, items]) => ({
-            category,
-            total: items.reduce((sum, item) => sum + item.amount, 0),
-            count: items.length,
-            percentage: 0 // Will be calculated after getting total
-        })).sort((a, b) => b.total - a.total);
+        const breakdown = Object.entries(grouped).map(([category, items]) => {
+            const amounts = items.map(item => safeNumber(item.amount));
+            const total = safeSum(amounts);
+
+            return {
+                category,
+                total,
+                count: items.length,
+                percentage: 0 // Will be calculated after getting total
+            };
+        }).sort((a, b) => b.total - a.total);
+
+        // Calculate percentages
+        const grandTotal = safeSum(breakdown.map(b => b.total));
+        breakdown.forEach(item => {
+            item.percentage = safePercentage(item.total, grandTotal);
+        });
+
+        return breakdown;
     },
 
     /**

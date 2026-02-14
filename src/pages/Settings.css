@@ -1,3 +1,8 @@
+/**
+ * Settings Page Styles
+ * Responsive settings layout with grid buttons
+ */
+
 .settings-page {
     padding-bottom: var(--spacing-lg);
 }
@@ -48,15 +53,22 @@
 }
 
 .theme-toggle:hover {
-    background-color: var(--color-secondary);
+    background-color: var(--color-primary);
     color: white;
-    border-color: var(--color-secondary);
+    border-color: var(--color-primary);
 }
 
+/* Export/Action Buttons - Responsive Grid */
 .export-actions {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+.export-actions button {
+    min-height: 44px;
+    /* Touch-friendly */
 }
 
 .danger-description {
@@ -75,8 +87,19 @@
     margin-bottom: 0;
 }
 
+/* Responsive */
 @media (min-width: 768px) {
     .settings-content {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .export-actions {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .export-actions {
+        grid-template-columns: 1fr;
     }
 }

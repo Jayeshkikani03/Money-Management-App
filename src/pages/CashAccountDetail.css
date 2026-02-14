@@ -1,0 +1,233 @@
+/**
+ * Cash Account Detail Styles
+ */
+
+.cash-account-detail {
+    padding-bottom: 80px;
+}
+
+/* Header */
+.account-header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.back-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.account-info {
+    flex: 1;
+}
+
+.account-info h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 var(--spacing-md);
+}
+
+.account-balance {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.balance-label {
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+.balance-amount {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+/* Transactions Section */
+.transactions-section {
+    padding: 0 var(--spacing-md);
+}
+
+.transactions-section h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
+    color: var(--color-text-primary);
+}
+
+.transaction-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.transaction-card {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: all 0.2s;
+}
+
+.transaction-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-card);
+}
+
+.transaction-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.transaction-card.income .transaction-icon {
+    background: var(--color-success-light);
+}
+
+.transaction-card.expense .transaction-icon {
+    background: var(--color-danger-light);
+}
+
+.income-icon {
+    color: var(--color-success);
+}
+
+.expense-icon {
+    color: var(--color-danger);
+}
+
+.transaction-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.transaction-description {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.transaction-meta {
+    display: flex;
+    gap: var(--spacing-sm);
+    font-size: 12px;
+    color: var(--color-text-secondary);
+}
+
+.transaction-category {
+    padding: 2px 8px;
+    background: var(--color-background);
+    border-radius: var(--radius-sm);
+}
+
+.transaction-amount {
+    font-size: 16px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.transaction-amount.income {
+    color: var(--color-success);
+}
+
+.transaction-amount.expense {
+    color: var(--color-danger);
+}
+
+/* Stats Section */
+.stats-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg) var(--spacing-md);
+    margin-top: var(--spacing-lg);
+}
+
+.stat-card {
+    padding: var(--spacing-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stat-card.income {
+    border-left: 4px solid var(--color-success);
+}
+
+.stat-card.expense {
+    border-left: 4px solid var(--color-danger);
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+}
+
+.stat-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+/* Empty State */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--spacing-xxl);
+    text-align: center;
+}
+
+.empty-icon {
+    font-size: 64px;
+    margin-bottom: var(--spacing-md);
+    opacity: 0.5;
+}
+
+.empty-state p {
+    margin: 0 0 var(--spacing-xs);
+    color: var(--color-text-secondary);
+}
+
+.empty-hint {
+    font-size: 12px;
+    color: var(--color-text-tertiary);
+}
+
+/* Dark Mode */
+[data-theme="dark"] .account-header {
+    background: linear-gradient(135deg, #4c51bf 0%, #553c9a 100%);
+}
