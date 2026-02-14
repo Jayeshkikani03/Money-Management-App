@@ -1,12 +1,14 @@
 .transaction-form {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
+    gap: 10px;
+    padding: 0;
 }
 
 .form-row {
     display: flex;
-    gap: var(--spacing-md);
+    gap: 10px;
+    margin-bottom: 0;
 }
 
 .type-selector {
@@ -15,61 +17,107 @@
 
 .type-label {
     display: block;
-    font-size: 14px;
+    margin-bottom: 5px;
+    font-size: 12px;
     font-weight: 500;
-    color: var(--color-text-primary);
-    margin-bottom: var(--spacing-xs);
+    color: var(--color-text);
 }
 
 .type-buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-sm);
+    display: flex;
+    gap: 6px;
 }
 
 .type-button {
-    padding: 12px;
-    border: 2px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    background-color: var(--color-card);
-    color: var(--color-text-primary);
-    font-weight: 500;
+    flex: 1;
+    padding: 8px 12px;
+    border: 1.5px solid var(--color-border);
+    background: var(--color-background);
+    color: var(--color-text);
+    border-radius: 6px;
     cursor: pointer;
-    transition: all var(--transition-fast);
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
 }
 
 .type-button:hover {
-    border-color: var(--color-text-secondary);
-}
-
-.type-button.active {
-    color: white;
+    border-color: var(--color-primary);
+    background: var(--color-surface);
 }
 
 .type-button.active.income {
-    background-color: var(--color-income);
-    border-color: var(--color-income);
+    background: var(--color-success);
+    color: white;
+    border-color: var(--color-success);
 }
 
 .type-button.active.expense {
-    background-color: var(--color-expense);
-    border-color: var(--color-expense);
+    background: var(--color-danger);
+    color: white;
+    border-color: var(--color-danger);
 }
 
 .form-actions {
     display: flex;
-    gap: var(--spacing-md);
-    margin-top: var(--spacing-md);
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--color-border);
 }
 
 .form-actions button {
     flex: 1;
+    padding: 10px;
+    font-size: 14px;
 }
 
 .error-message {
-    padding: var(--spacing-md);
-    background-color: var(--color-expense-light);
-    color: var(--color-expense);
-    border-radius: var(--radius-sm);
-    font-size: 14px;
+    color: var(--color-danger);
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+/* Compact input styling */
+.transaction-form input,
+.transaction-form select,
+.transaction-form textarea {
+    font-size: 13px;
+    padding: 8px 10px;
+}
+
+.transaction-form label {
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.transaction-form textarea {
+    min-height: 50px;
+    resize: vertical;
+}
+
+/* Calculator input adjustments */
+.calculator-input-wrapper {
+    margin-bottom: 0;
+}
+
+.calculator-input-field {
+    padding: 8px 10px;
+}
+
+.amount-display {
+    font-size: 15px;
+}
+
+.input-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text);
+    margin-bottom: 5px;
+    display: block;
+}
+
+.required {
+    color: var(--color-danger);
+    margin-left: 2px;
 }

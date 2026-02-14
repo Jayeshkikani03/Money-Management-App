@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
+import CalculatorInput from './CalculatorInput';
 import Input from './ui/Input';
 import Select from './ui/Select';
 import Button from './ui/Button';
@@ -33,6 +34,13 @@ const TransactionForm = ({ transaction, onClose, onSuccess }) => {
         // Clear error for this field
         if (errors[name]) {
             setErrors(prev => ({ ...prev, [name]: '' }));
+        }
+    };
+
+    const handleAmountChange = (value) => {
+        setFormData(prev => ({ ...prev, amount: value }));
+        if (errors.amount) {
+            setErrors(prev => ({ ...prev, amount: '' }));
         }
     };
 
@@ -84,15 +92,12 @@ const TransactionForm = ({ transaction, onClose, onSuccess }) => {
 
     return (
         <form onSubmit={handleSubmit} className="transaction-form">
-            <Input
-                label="Amount"
-                type="number"
-                name="amount"
+            <CalculatorInput
                 value={formData.amount}
-                onChange={handleChange}
+                onChange={handleAmountChange}
+                currency="INR"
+                allowNegative={false}
                 placeholder="0.00"
-                step="0.01"
-                min="0"
                 error={errors.amount}
                 required
             />
