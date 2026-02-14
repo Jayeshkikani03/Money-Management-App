@@ -4,6 +4,9 @@ import MonthSelector from '../components/MonthSelector';
 import TabNavigation from '../components/TabNavigation';
 import SummaryBar from '../components/SummaryBar';
 import EnhancedTransactionList from '../components/EnhancedTransactionList';
+import CalendarView from '../components/CalendarView';
+import MonthlyView from '../components/MonthlyView';
+import TotalView from '../components/TotalView';
 import FloatingActionButton from '../components/FloatingActionButton';
 import TransactionForm from '../components/TransactionForm';
 import Modal from '../components/ui/Modal';
@@ -56,12 +59,62 @@ const Transactions = () => {
         setShowAddModal(true);
     };
 
+    const renderView = () => {
+        switch (activeTab) {
+            case 'calendar':
+                return (
+                    <CalendarView
+                        transactions={monthlyTransactions}
+                        month={selectedMonth}
+                        year={selectedYear}
+                        onTransactionClick={handleTransactionClick}
+                    />
+                );
+            case 'monthly':
+                return (
+                    <MonthlyView
+                        transactions={transactions.filter(t => {
+                            const date = new Date(t.date);
+                            return date.getFullYear() === selectedYear;
+                        })}
+                        year={selectedYear}
+                    />
+                );
+            case 'total':
+                return (
+                    <TotalView
+                        transactions={transactions.filter(t => {
+                            const date = new Date(t.date);
+                            return date.getFullYear() === selectedYear;
+                        })}
+                        month={selectedMonth}
+                        year={selectedYear}
+                    />
+                );
+            case 'note':
+                return (
+                    <div className="note-view">
+                        <p>Notes feature coming soon...</p>
+                    </div>
+                );
+            case 'daily':
+            default:
+                return (
+                    <EnhancedTransactionList
+                        transactions={monthlyTransactions}
+                        onTransactionClick={handleTransactionClick}
+                    />
+                );
+        }
+    };
+
     return (
         <div className="transactions-page">
             <MonthSelector
                 month={selectedMonth}
                 year={selectedYear}
                 onMonthChange={handleMonthChange}
+                mode={activeTab === 'monthly' || activeTab === 'total' ? 'year' : 'month'}
             />
 
             <TabNavigation
@@ -75,10 +128,9 @@ const Transactions = () => {
                 expense={monthlyTotals.totalExpense}
             />
 
-            <EnhancedTransactionList
-                transactions={monthlyTransactions}
-                onTransactionClick={handleTransactionClick}
-            />
+            <div className="view-container">
+                {renderView()}
+            </div>
 
             <FloatingActionButton onClick={handleAddClick} />
 

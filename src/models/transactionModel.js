@@ -7,10 +7,14 @@ export const createTransaction = (data) => {
     return {
         id: data.id || generateId(),
         amount: parseFloat(data.amount),
-        type: data.type, // 'income' or 'expense'
+        type: data.type, // 'income', 'expense', or 'transfer'
         category: data.category,
         date: data.date || new Date().toISOString(),
         notes: data.notes || '',
+        accountType: data.accountType || 'cash',
+        accountId: data.accountId || null,
+        toAccountType: data.toAccountType || null, // for transfers
+        toAccountId: data.toAccountId || null,     // for transfers
         createdAt: data.createdAt || Date.now()
     };
 };
@@ -22,8 +26,9 @@ export const isValidTransaction = (transaction) => {
     return (
         transaction &&
         typeof transaction.amount === 'number' &&
+        !isNaN(transaction.amount) &&
         transaction.amount > 0 &&
-        ['income', 'expense'].includes(transaction.type) &&
+        ['income', 'expense', 'transfer'].includes(transaction.type) &&
         transaction.category &&
         transaction.date
     );

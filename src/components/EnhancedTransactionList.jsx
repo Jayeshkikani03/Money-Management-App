@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { useApp } from '../context/AppContext';
 import CategoryIcon from './CategoryIcon';
 import { formatCurrency, formatDate } from '../utils/helpers';
+import { getAccountDisplayName } from '../services/accountTransactionService';
 import './EnhancedTransactionList.css';
 
 const EnhancedTransactionList = ({ transactions, onTransactionClick }) => {
@@ -65,10 +66,15 @@ const EnhancedTransactionList = ({ transactions, onTransactionClick }) => {
                                     {transaction.notes && (
                                         <div className="transaction-note">{transaction.notes}</div>
                                     )}
-                                    <div className="transaction-account">Cash</div>
+                                    <div className="transaction-account">
+                                        {getAccountDisplayName(transaction.accountType, transaction.accountId)}
+                                        {transaction.type === 'transfer' && transaction.toAccountType && (
+                                            ` → ${getAccountDisplayName(transaction.toAccountType, transaction.toAccountId)}`
+                                        )}
+                                    </div>
                                 </div>
                                 <div className={`transaction-amount ${transaction.type}`}>
-                                    {transaction.type === 'income' ? '+' : '-'}
+                                    {transaction.type === 'income' ? '+' : transaction.type === 'expense' ? '-' : ''}
                                     {formatCurrency(transaction.amount, settings.currency)}
                                 </div>
                             </div>

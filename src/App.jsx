@@ -1,28 +1,35 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AppProvider } from './context/AppContext';
+import { useApp } from './context/AppContext';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import Transactions from './pages/Transactions';
+import Accounts from './pages/Accounts';
 import Reports from './pages/Reports';
-import Backup from './pages/Backup';
+import BankAccountDetail from './pages/BankAccountDetail';
+import CreditCardDetail from './pages/CreditCardDetail';
 import Settings from './pages/Settings';
+import './App.css';
 
 function App() {
+    const { theme } = useApp();
+
     return (
-        <AppProvider>
-            <BrowserRouter>
+        <BrowserRouter>
+            <div className={`app ${theme}`}>
                 <Routes>
                     <Route path="/" element={<Layout />}>
                         <Route index element={<Dashboard />} />
                         <Route path="transactions" element={<Transactions />} />
+                        <Route path="accounts" element={<Accounts />} />
+                        <Route path="accounts/bank/:id" element={<BankAccountDetail />} />
+                        <Route path="accounts/credit/:id" element={<CreditCardDetail />} />
                         <Route path="reports" element={<Reports />} />
-                        <Route path="backup" element={<Backup />} />
                         <Route path="settings" element={<Settings />} />
                     </Route>
                 </Routes>
-            </BrowserRouter>
-        </AppProvider>
+            </div>
+        </BrowserRouter>
     );
 }
 

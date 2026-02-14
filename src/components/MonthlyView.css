@@ -1,0 +1,86 @@
+.monthly-view {
+    padding: 0;
+    background: var(--color-background);
+}
+
+.month-section {
+    margin-bottom: 16px;
+    background: var(--color-card);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.month-header {
+    padding: 12px 16px;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.month-header h3 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.month-totals {
+    display: flex;
+    gap: 16px;
+    font-size: 13px;
+}
+
+.month-income {
+    color: var(--color-income);
+    font-weight: 500;
+}
+
+.month-expense {
+    color: var(--color-expense);
+    font-weight: 500;
+}
+
+.week-list {
+    padding: 8px 0;
+}
+
+.week-item {
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.week-item:last-child {
+    border-bottom: none;
+}
+
+.week-date {
+    font-size: 14px;
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+.week-amounts {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.week-income {
+    font-size: 14px;
+    color: var(--color-income);
+    font-weight: 500;
+}
+
+.week-expense {
+    font-size: 14px;
+    color: var(--color-expense);
+    font-weight: 500;
+}
+
+.week-net {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+}

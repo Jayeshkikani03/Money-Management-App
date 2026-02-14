@@ -1,0 +1,128 @@
+.accounts-overview {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.overview-card {
+    background: var(--color-card);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s;
+    border: 1px solid var(--color-border);
+}
+
+.overview-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.overview-card.net-worth {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: white;
+    border: none;
+    padding: 24px;
+}
+
+.overview-card.net-worth .overview-icon-wrapper {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 12px;
+    border-radius: 50%;
+    margin-right: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.overview-card.net-worth .overview-label {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.overview-card.net-worth .overview-amount {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+}
+
+.overview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.overview-card.small {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px;
+}
+
+.overview-card.small .overview-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.overview-card.small .overview-icon {
+    padding: 6px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.overview-card.small .overview-icon.cash {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+}
+
+.overview-card.small .overview-icon.bank {
+    background: var(--color-secondary-light);
+    color: var(--color-secondary);
+}
+
+.overview-card.small .overview-icon.credit {
+    background: var(--color-expense-light);
+    color: var(--color-expense);
+}
+
+.overview-card.small .overview-label {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+}
+
+.overview-card.small .overview-amount {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.overview-card.small .overview-amount.negative {
+    color: var(--color-expense);
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .overview-card.small .overview-amount {
+    color: #e2e8f0;
+}
+
+@media (max-width: 480px) {
+    .overview-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .overview-card.net-worth {
+        padding: 20px;
+    }
+
+    .overview-card.net-worth .overview-amount {
+        font-size: 1.5rem;
+    }
+}

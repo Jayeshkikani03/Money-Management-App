@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import Card from '../components/ui/Card';
 import PieChart from '../components/charts/PieChart';
-import BarChart from '../components/charts/BarChart';
+import LineChart from '../components/charts/LineChart';
 import { getCurrentMonthYear, getMonthName } from '../utils/helpers';
 import './Reports.css';
 
@@ -50,9 +50,9 @@ const Reports = () => {
                 </Card>
 
                 <Card className="full-width">
-                    <BarChart
+                    <LineChart
                         data={monthlyTrends}
-                        title="Monthly Income vs Expense Trend"
+                        title="Income vs Expense Trend"
                     />
                 </Card>
 

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import BalanceCard from '../components/BalanceCard';
-import LineChart from '../components/charts/LineChart';
-import InsightsPanel from '../components/InsightsPanel';
 import TransactionForm from '../components/TransactionForm';
 import FloatingActionButton from '../components/FloatingActionButton';
 import CategoryIcon from '../components/CategoryIcon';
 import Modal from '../components/ui/Modal';
 import Card from '../components/ui/Card';
 import { formatCurrency, formatDate, getCurrentMonthYear } from '../utils/helpers';
+import { getAccountDisplayName } from '../services/accountTransactionService';
+import AccountsOverview from '../components/AccountsOverview';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -25,16 +25,10 @@ const Dashboard = () => {
         <div className="dashboard">
 
             <div className="dashboard-grid">
+                <AccountsOverview />
                 <BalanceCard month={month} year={year} />
 
-                <Card>
-                    <LineChart
-                        data={monthlyTrends}
-                        title="Income vs Expense Trend"
-                    />
-                </Card>
-
-                <InsightsPanel />
+                {/* LineChart and InsightsPanel removed as per user request */}
 
                 <Card>
                     <h3 style={{ marginBottom: '16px' }}>Recent Transactions</h3>
@@ -49,10 +43,12 @@ const Dashboard = () => {
                                     <CategoryIcon category={transaction.category} type={transaction.type} />
                                     <div className="transaction-details">
                                         <div className="transaction-category">{transaction.category}</div>
-                                        <div className="transaction-date">{formatDate(transaction.date)}</div>
+                                        <div className="transaction-date">
+                                            {formatDate(transaction.date)} • {getAccountDisplayName(transaction.accountType, transaction.accountId)}
+                                        </div>
                                     </div>
                                     <div className={`transaction-amount ${transaction.type}`}>
-                                        {transaction.type === 'income' ? '+' : '-'}
+                                        {transaction.type === 'income' ? '+' : transaction.type === 'expense' ? '-' : ''}
                                         {formatCurrency(transaction.amount, settings.currency)}
                                     </div>
                                 </div>

@@ -6,6 +6,18 @@
     overflow: hidden;
 }
 
+.view-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+}
+
+.note-view {
+    padding: 20px;
+    text-align: center;
+    color: var(--color-text-secondary);
+}
+
 /* Mobile-first responsive layout */
 @media (min-width: 768px) {
     .transactions-page {

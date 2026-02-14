@@ -1,75 +1,217 @@
 .transaction-form {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
+    gap: 16px;
+    padding-bottom: 20px;
 }
 
-.form-row {
+.form-section {
     display: flex;
-    gap: var(--spacing-md);
+    flex-direction: column;
+    gap: 8px;
 }
 
 .type-selector {
-    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
-.type-label {
-    display: block;
-    font-size: 14px;
+.type-label,
+.section-label {
+    font-size: 13px;
     font-weight: 500;
-    color: var(--color-text-primary);
-    margin-bottom: var(--spacing-xs);
+    color: var(--color-text);
 }
 
 .type-buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-sm);
+    display: flex;
+    background: var(--color-surface);
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
 }
 
 .type-button {
-    padding: 12px;
-    border: 2px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    background-color: var(--color-card);
-    color: var(--color-text-primary);
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    transition: all var(--transition-fast);
-}
-
-.type-button:hover {
-    border-color: var(--color-text-secondary);
+    border-radius: 6px;
+    transition: all 0.2s ease;
 }
 
 .type-button.active {
-    color: white;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: var(--color-text);
 }
 
 .type-button.active.income {
-    background-color: var(--color-income);
-    border-color: var(--color-income);
+    color: #10b981;
 }
 
 .type-button.active.expense {
-    background-color: var(--color-expense);
-    border-color: var(--color-expense);
+    color: #ef4444;
+}
+
+/* Account Selection Styles */
+.account-type-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.account-tab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s ease;
+}
+
+.account-tab.active {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: #3b82f6;
+    color: #3b82f6;
+    font-weight: 600;
+}
+
+.account-icon {
+    font-size: 16px;
+}
+
+.selected-account-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.selected-account-card:hover {
+    border-color: var(--color-primary);
+    background: var(--color-hover);
+}
+
+.selected-account-card.error {
+    border-color: var(--color-error);
+}
+
+.account-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.account-icon-small {
+    font-size: 24px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+}
+
+.account-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.account-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+.account-sub {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+}
+
+.change-account {
+    font-size: 12px;
+    color: var(--color-primary);
+    font-weight: 500;
+}
+
+.select-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    color: var(--color-text-secondary);
+    font-size: 14px;
+}
+
+.chevron {
+    font-size: 18px;
+    font-weight: 300;
+}
+
+/* Other inputs */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.input-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+.input {
+    padding: 12px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    color: var(--color-text);
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+.error-message {
+    font-size: 12px;
+    color: var(--color-error);
+    margin-top: 4px;
+}
+
+.submit-error {
+    padding: 10px;
+    background: rgba(239, 68, 68, 0.1);
+    border-radius: 6px;
+    text-align: center;
+    margin-bottom: 8px;
 }
 
 .form-actions {
     display: flex;
-    gap: var(--spacing-md);
-    margin-top: var(--spacing-md);
-}
-
-.form-actions button {
-    flex: 1;
-}
-
-.error-message {
-    padding: var(--spacing-md);
-    background-color: var(--color-expense-light);
-    color: var(--color-expense);
-    border-radius: var(--radius-sm);
-    font-size: 14px;
+    gap: 12px;
+    margin-top: 8px;
 }

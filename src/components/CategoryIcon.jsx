@@ -11,7 +11,8 @@ import {
     Briefcase,
     DollarSign,
     TrendingUp,
-    Wallet
+    Wallet,
+    ArrowRightLeft
 } from 'lucide-react';
 
 // Category icon mapping
@@ -31,7 +32,10 @@ export const getCategoryIcon = (categoryName) => {
         'Salary': Briefcase,
         'Freelance': DollarSign,
         'Investment': TrendingUp,
-        'Other Income': Wallet
+        'Other Income': Wallet,
+
+        // Transfer
+        'Transfer': ArrowRightLeft
     };
 
     return iconMap[categoryName] || MoreHorizontal;

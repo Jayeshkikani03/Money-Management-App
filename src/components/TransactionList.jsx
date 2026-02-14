@@ -105,8 +105,8 @@ const TransactionList = ({ onEdit }) => {
                             </div>
                             <div className="transaction-right">
                                 <div className={`transaction-amount ${transaction.type}`}>
-                                    {transaction.type === 'income' ? '+' : '-'}
-                                    {formatCurrency(transaction.amount, settings.currency)}
+                                    {transaction.type === 'income' ? '+' : transaction.type === 'expense' ? '-' : ''}
+                                    {formatCurrency(transaction.amount)}
                                 </div>
                                 <div className="transaction-actions">
                                     <button
