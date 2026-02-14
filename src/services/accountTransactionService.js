@@ -1,3 +1,5 @@
+import { safeNumber } from '../utils/numberUtils';
+
 import { ACCOUNT_TYPES, TRANSACTION_TYPES } from '../constants/accountTypes';
 import { getBankAccountById } from './accountService';
 import { getCreditCardById } from './cardService';
@@ -10,8 +12,19 @@ import { getCreditCardById } from './cardService';
 // Get transactions by account
 export const getTransactionsByAccount = (transactions, accountType, accountId = null) => {
     return transactions.filter(transaction => {
+        const isTransfer = transaction.type === TRANSACTION_TYPES.TRANSFER;
+
         // Check if account is the primary (source) account
         const isSource = (() => {
+            if (isTransfer) {
+                // For transfers, use fromAccountType/fromAccountId
+                if (accountType === ACCOUNT_TYPES.CASH) {
+                    return transaction.fromAccountType === ACCOUNT_TYPES.CASH;
+                }
+                return transaction.fromAccountType === accountType && transaction.fromAccountId === accountId;
+            }
+
+            // For Income/Expense
             if (accountType === ACCOUNT_TYPES.CASH) {
                 return transaction.accountType === ACCOUNT_TYPES.CASH || !transaction.accountType;
             }
@@ -20,7 +33,7 @@ export const getTransactionsByAccount = (transactions, accountType, accountId = 
 
         // Check if account is the destination account (for transfers)
         const isDestination =
-            transaction.type === TRANSACTION_TYPES.TRANSFER &&
+            isTransfer &&
             transaction.toAccountType === accountType &&
             transaction.toAccountId === accountId;
 
@@ -36,7 +49,17 @@ export const getAccountTotals = (transactions, accountType, accountId = null) =>
     let totalExpense = 0;
 
     accountTransactions.forEach(transaction => {
+        const amount = safeNumber(transaction.amount);
+        const isTransfer = transaction.type === TRANSACTION_TYPES.TRANSFER;
+
         const isSource = (() => {
+            if (isTransfer) {
+                if (accountType === ACCOUNT_TYPES.CASH) {
+                    return transaction.fromAccountType === ACCOUNT_TYPES.CASH;
+                }
+                return transaction.fromAccountType === accountType && transaction.fromAccountId === accountId;
+            }
+
             if (accountType === ACCOUNT_TYPES.CASH) {
                 return transaction.accountType === ACCOUNT_TYPES.CASH || !transaction.accountType;
             }
@@ -44,16 +67,16 @@ export const getAccountTotals = (transactions, accountType, accountId = null) =>
         })();
 
         if (transaction.type === TRANSACTION_TYPES.INCOME) {
-            totalIncome += transaction.amount;
+            totalIncome += amount;
         } else if (transaction.type === TRANSACTION_TYPES.EXPENSE) {
-            totalExpense += transaction.amount;
+            totalExpense += amount;
         } else if (transaction.type === TRANSACTION_TYPES.TRANSFER) {
             if (isSource) {
                 // Money leaving this account
-                totalExpense += transaction.amount;
+                totalExpense += amount;
             } else {
                 // Money entering this account
-                totalIncome += transaction.amount;
+                totalIncome += amount;
             }
         }
     });
@@ -65,6 +88,9 @@ export const getAccountTotals = (transactions, accountType, accountId = null) =>
         transactionCount: accountTransactions.length
     };
 };
+
+
+
 
 // Get account display name
 export const getAccountDisplayName = (accountType, accountId) => {

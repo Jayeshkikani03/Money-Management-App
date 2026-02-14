@@ -17,8 +17,8 @@ const TABS = [
     { id: 'daily', label: 'Daily' },
     { id: 'calendar', label: 'Calendar' },
     { id: 'monthly', label: 'Monthly' },
-    { id: 'total', label: 'Total' },
-    { id: 'note', label: 'Note' }
+    { id: 'total', label: 'Total' }
+    // { id: 'note', label: 'Note' }
 ];
 
 const Transactions = () => {
@@ -91,12 +91,12 @@ const Transactions = () => {
                         year={selectedYear}
                     />
                 );
-            case 'note':
-                return (
-                    <div className="note-view">
-                        <p>Notes feature coming soon...</p>
-                    </div>
-                );
+            // case 'note':
+            //     return (
+            //         <div className="note-view">
+            //             <p>Notes feature coming soon...</p>
+            //         </div>
+            //     );
             case 'daily':
             default:
                 return (

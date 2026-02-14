@@ -19,7 +19,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: var(--z-fixed);
+    z-index: 900;
     transition: all var(--transition-normal);
 }
 

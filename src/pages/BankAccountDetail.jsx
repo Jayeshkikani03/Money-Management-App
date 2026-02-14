@@ -85,13 +85,13 @@ const BankAccountDetail = () => {
                 <div className="stat-card">
                     <div className="stat-label">Total Income</div>
                     <div className="stat-value income">
-                        +{formatCurrency(stats.income, settings.currency)}
+                        +{formatCurrency(stats.totalIncome, settings.currency)}
                     </div>
                 </div>
                 <div className="stat-card">
                     <div className="stat-label">Total Expense</div>
                     <div className="stat-value expense">
-                        -{formatCurrency(stats.expense, settings.currency)}
+                        -{formatCurrency(stats.totalExpense, settings.currency)}
                     </div>
                 </div>
             </div>

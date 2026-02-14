@@ -8,9 +8,10 @@
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    z-index: 1000;
+    z-index: 2000;
     animation: fadeIn 0.2s ease;
     overflow-y: auto;
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
 @keyframes fadeIn {
@@ -28,12 +29,14 @@
     border-radius: 16px 16px 0 0;
     width: 100%;
     max-width: 480px;
+    margin-bottom: env(safe-area-inset-bottom);
     max-height: 80vh;
     animation: slideUp 0.3s ease;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    margin-bottom: 25%;
 }
 
 @keyframes slideUp {

@@ -58,8 +58,13 @@ const AddCreditCardForm = ({ onClose, onSuccess, accountToEdit = null }) => {
         if (isEditMode && formData.cardNumber.includes('*')) {
             // It's masked, skip length check if not changed
             delete newErrors.cardNumber;
-        } else if (formData.cardNumber.replace(/\s/g, '').length < 12) {
-            newErrors.cardNumber = 'Card number must be at least 12 digits';
+        } else {
+            const cleanNumber = formData.cardNumber.replace(/\s/g, '');
+            if (!/^\d+$/.test(cleanNumber)) {
+                newErrors.cardNumber = 'Card number must contain only digits';
+            } else if (cleanNumber.length !== 4) {
+                newErrors.cardNumber = 'Please enter only the last 4 digits';
+            }
         }
 
         if (!formData.creditLimit) {
@@ -144,7 +149,7 @@ const AddCreditCardForm = ({ onClose, onSuccess, accountToEdit = null }) => {
                     name="cardNumber"
                     value={formData.cardNumber}
                     onChange={handleChange}
-                    placeholder="Last 4 digits will be shown"
+                    placeholder="Enter last 4 digits"
                     className={errors.cardNumber ? 'error' : ''}
                 // Disable editing card number if it's masked? Or let them overwrite?
                 // Let's let them overwrite.

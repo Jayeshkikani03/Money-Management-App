@@ -43,8 +43,10 @@ const AddBankAccountForm = ({ onClose, onSuccess, accountToEdit = null }) => {
 
         if (!formData.accountNumber.trim()) {
             newErrors.accountNumber = 'Account number is required';
-        } else if (formData.accountNumber.length < 8) {
-            newErrors.accountNumber = 'Account number must be at least 8 digits';
+        } else if (!/^\d+$/.test(formData.accountNumber)) {
+            newErrors.accountNumber = 'Account number must contain only digits';
+        } else if (formData.accountNumber.length !== 4) {
+            newErrors.accountNumber = 'Please enter only the last 4 digits';
         }
 
         if (!isEditMode) {
@@ -126,7 +128,7 @@ const AddBankAccountForm = ({ onClose, onSuccess, accountToEdit = null }) => {
                     name="accountNumber"
                     value={formData.accountNumber}
                     onChange={handleChange}
-                    placeholder="Last 4 digits will be shown"
+                    placeholder="Enter last 4 digits"
                     className={errors.accountNumber ? 'error' : ''}
                 />
                 {errors.accountNumber && <span className="error-message">{errors.accountNumber}</span>}

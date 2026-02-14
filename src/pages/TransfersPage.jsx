@@ -4,7 +4,7 @@ import { ACCOUNT_TYPES, ACCOUNT_TYPE_ICONS } from '../constants/accountTypes';
 import { getAccountDetails } from '../services/accountTransactionService';
 import Modal from '../components/ui/Modal';
 import TransferForm from '../components/TransferForm';
-import { Edit2 } from 'lucide-react';
+import { Edit2, Plus } from 'lucide-react';
 import './TransfersPage.css';
 
 /**
@@ -14,16 +14,21 @@ import './TransfersPage.css';
 const TransfersPage = () => {
     const { transactions } = useApp();
     const [filter, setFilter] = useState('all');
-    const [showEditModal, setShowEditModal] = useState(false);
+    const [showTransferModal, setShowTransferModal] = useState(false);
     const [editingTransfer, setEditingTransfer] = useState(null);
 
     const handleEditClick = (transfer) => {
         setEditingTransfer(transfer);
-        setShowEditModal(true);
+        setShowTransferModal(true);
+    };
+
+    const handleAddClick = () => {
+        setEditingTransfer(null);
+        setShowTransferModal(true);
     };
 
     const handleCloseModal = () => {
-        setShowEditModal(false);
+        setShowTransferModal(false);
         setEditingTransfer(null);
     };
 
@@ -164,10 +169,19 @@ const TransfersPage = () => {
                 </div>
             )}
 
+            {/* Floating Action Button for New Transfer */}
+            <button
+                className="fab-add-transfer"
+                onClick={handleAddClick}
+                title="New Transfer"
+            >
+                <Plus size={24} />
+            </button>
+
             <Modal
-                isOpen={showEditModal}
+                isOpen={showTransferModal}
                 onClose={handleCloseModal}
-                title="Edit Transfer"
+                title={editingTransfer ? "Edit Transfer" : "New Transfer"}
             >
                 <TransferForm
                     editingTransfer={editingTransfer}

@@ -25,10 +25,32 @@ const Accounts = () => {
 
     // Calculate Cash Balance with safe number operations
     const calculateCashBalance = () => {
-        const amounts = transactions
-            .filter(t => !t.accountType || t.accountType === ACCOUNT_TYPES.CASH)
-            .map(t => t.type === 'income' ? safeNumber(t.amount) : -safeNumber(t.amount));
-        return safeSum(amounts);
+        let total = 0;
+        transactions.forEach(t => {
+            const amount = safeNumber(t.amount);
+
+            if (t.type === 'transfer') {
+                // Handle transfers separately based on Source/Dest
+                if (t.fromAccountType === ACCOUNT_TYPES.CASH) {
+                    total -= amount;
+                }
+                if (t.toAccountType === ACCOUNT_TYPES.CASH) {
+                    total += amount;
+                }
+            } else {
+                // Income / Expense
+                // Only if accountType is Cash (or missing, defaulting to cash)
+                if (!t.accountType || t.accountType === ACCOUNT_TYPES.CASH) {
+                    if (t.type === 'income') {
+                        total += amount;
+                    } else {
+                        // Expense
+                        total -= amount;
+                    }
+                }
+            }
+        });
+        return total;
     };
 
     const cashBalance = calculateCashBalance();
@@ -217,10 +239,7 @@ const Accounts = () => {
                 {activeTab === ACCOUNT_TYPES.CREDIT && renderCardTab()}
             </div>
 
-            {/* Floating Transfer Button */}
-            <button className="fab-transfer" onClick={() => setShowTransferModal(true)} title="Transfer Funds">
-                <ArrowLeftRight size={24} />
-            </button>
+
 
             {/* Modals */}
             <Modal

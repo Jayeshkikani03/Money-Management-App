@@ -21,6 +21,19 @@ const initDB = async () => {
                 if (!db.objectStoreNames.contains(DB_CONFIG.STORES.GOALS)) {
                     db.createObjectStore(DB_CONFIG.STORES.GOALS, { keyPath: 'id' });
                 }
+
+                // Notes Module Stores
+                if (!db.objectStoreNames.contains(DB_CONFIG.STORES.PERSONS)) {
+                    db.createObjectStore(DB_CONFIG.STORES.PERSONS, { keyPath: 'id' });
+                }
+                if (!db.objectStoreNames.contains(DB_CONFIG.STORES.NOTE_TRANSACTIONS)) {
+                    const store = db.createObjectStore(DB_CONFIG.STORES.NOTE_TRANSACTIONS, { keyPath: 'id' });
+                    store.createIndex('personId', 'personId', { unique: false });
+                }
+                if (!db.objectStoreNames.contains(DB_CONFIG.STORES.SETTLEMENTS)) {
+                    const store = db.createObjectStore(DB_CONFIG.STORES.SETTLEMENTS, { keyPath: 'id' });
+                    store.createIndex('personId', 'personId', { unique: false });
+                }
             }
         });
         return db;
@@ -306,6 +319,121 @@ const storageService = {
         }
     },
 
+    // --- Notes Module Methods ---
+
+    /**
+     * Load all persons
+     */
+    async loadPersons() {
+        if (this.useIDB && this.db) {
+            const tx = this.db.transaction(DB_CONFIG.STORES.PERSONS, 'readonly');
+            return await tx.objectStore(DB_CONFIG.STORES.PERSONS).getAll();
+        } else {
+            const storage = useLocalStorage();
+            return await storage.get('persons');
+        }
+    },
+
+    /**
+     * Add or update a person
+     */
+    async savePerson(person) {
+        if (this.useIDB && this.db) {
+            const tx = this.db.transaction(DB_CONFIG.STORES.PERSONS, 'readwrite');
+            await tx.objectStore(DB_CONFIG.STORES.PERSONS).put(person);
+            await tx.done;
+        } else {
+            const persons = await this.loadPersons();
+            const index = persons.findIndex(p => p.id === person.id);
+            if (index !== -1) {
+                persons[index] = person;
+            } else {
+                persons.push(person);
+            }
+            const storage = useLocalStorage();
+            await storage.set('persons', persons);
+        }
+    },
+
+    /**
+     * Delete a person
+     */
+    async deletePerson(id) {
+        if (this.useIDB && this.db) {
+            const tx = this.db.transaction(DB_CONFIG.STORES.PERSONS, 'readwrite');
+            await tx.objectStore(DB_CONFIG.STORES.PERSONS).delete(id);
+            await tx.done;
+        } else {
+            const persons = await this.loadPersons();
+            const filtered = persons.filter(p => p.id !== id);
+            const storage = useLocalStorage();
+            await storage.set('persons', filtered);
+        }
+    },
+
+    /**
+     * Load note transactions
+     */
+    async loadNoteTransactions() {
+        if (this.useIDB && this.db) {
+            const tx = this.db.transaction(DB_CONFIG.STORES.NOTE_TRANSACTIONS, 'readonly');
+            return await tx.objectStore(DB_CONFIG.STORES.NOTE_TRANSACTIONS).getAll();
+        } else {
+            const storage = useLocalStorage();
+            return await storage.get('note_transactions');
+        }
+    },
+
+    /**
+     * Add or update a note transaction
+     */
+    async saveNoteTransaction(transaction) {
+        if (this.useIDB && this.db) {
+            const tx = this.db.transaction(DB_CONFIG.STORES.NOTE_TRANSACTIONS, 'readwrite');
+            await tx.objectStore(DB_CONFIG.STORES.NOTE_TRANSACTIONS).put(transaction);
+            await tx.done;
+        } else {
+            const transactions = await this.loadNoteTransactions();
+            const index = transactions.findIndex(t => t.id === transaction.id);
+            if (index !== -1) {
+                transactions[index] = transaction;
+            } else {
+                transactions.push(transaction);
+            }
+            const storage = useLocalStorage();
+            await storage.set('note_transactions', transactions);
+        }
+    },
+
+    /**
+     * Load settlements
+     */
+    async loadSettlements() {
+        if (this.useIDB && this.db) {
+            const tx = this.db.transaction(DB_CONFIG.STORES.SETTLEMENTS, 'readonly');
+            return await tx.objectStore(DB_CONFIG.STORES.SETTLEMENTS).getAll();
+        } else {
+            const storage = useLocalStorage();
+            return await storage.get('settlements');
+        }
+    },
+
+    /**
+     * Save a settlement
+     */
+    async saveSettlement(settlement) {
+        if (this.useIDB && this.db) {
+            const tx = this.db.transaction(DB_CONFIG.STORES.SETTLEMENTS, 'readwrite');
+            await tx.objectStore(DB_CONFIG.STORES.SETTLEMENTS).put(settlement);
+            await tx.done;
+        } else {
+            const settlements = await this.loadSettlements();
+            settlements.push(settlement);
+            const storage = useLocalStorage();
+            await storage.set('settlements', settlements);
+        }
+    },
+
     /**
      * Export all data as JSON
      */
@@ -315,13 +443,21 @@ const storageService = {
         const settings = await this.loadSettings();
         const goals = await this.loadGoals();
 
+        // Notes Data
+        const persons = await this.loadPersons();
+        const noteTransactions = await this.loadNoteTransactions();
+        const settlements = await this.loadSettlements();
+
         return {
             transactions,
             categories,
             settings,
             goals,
+            persons,
+            noteTransactions,
+            settlements,
             exportDate: new Date().toISOString(),
-            version: '1.0'
+            version: '2.0' // Incremented version
         };
     },
 
@@ -329,17 +465,49 @@ const storageService = {
      * Import data from JSON
      */
     async importData(data) {
-        if (data.transactions) {
-            await this.saveTransactions(data.transactions);
+        if (data.transactions) await this.saveTransactions(data.transactions);
+        if (data.categories) await this.saveCategories(data.categories);
+        if (data.settings) await this.saveSettings(data.settings);
+        if (data.goals) await this.saveGoals(data.goals);
+
+        // Import Notes Data
+        if (data.persons) {
+            if (this.useIDB && this.db) {
+                const tx = this.db.transaction(DB_CONFIG.STORES.PERSONS, 'readwrite');
+                const store = tx.objectStore(DB_CONFIG.STORES.PERSONS);
+                await store.clear();
+                for (const p of data.persons) await store.put(p);
+                await tx.done;
+            } else {
+                const storage = useLocalStorage();
+                await storage.set('persons', data.persons);
+            }
         }
-        if (data.categories) {
-            await this.saveCategories(data.categories);
+
+        if (data.noteTransactions) {
+            if (this.useIDB && this.db) {
+                const tx = this.db.transaction(DB_CONFIG.STORES.NOTE_TRANSACTIONS, 'readwrite');
+                const store = tx.objectStore(DB_CONFIG.STORES.NOTE_TRANSACTIONS);
+                await store.clear();
+                for (const t of data.noteTransactions) await store.put(t);
+                await tx.done;
+            } else {
+                const storage = useLocalStorage();
+                await storage.set('note_transactions', data.noteTransactions);
+            }
         }
-        if (data.settings) {
-            await this.saveSettings(data.settings);
-        }
-        if (data.goals) {
-            await this.saveGoals(data.goals);
+
+        if (data.settlements) {
+            if (this.useIDB && this.db) {
+                const tx = this.db.transaction(DB_CONFIG.STORES.SETTLEMENTS, 'readwrite');
+                const store = tx.objectStore(DB_CONFIG.STORES.SETTLEMENTS);
+                await store.clear();
+                for (const s of data.settlements) await store.put(s);
+                await tx.done;
+            } else {
+                const storage = useLocalStorage();
+                await storage.set('settlements', data.settlements);
+            }
         }
     },
 
@@ -352,13 +520,19 @@ const storageService = {
                 DB_CONFIG.STORES.TRANSACTIONS,
                 DB_CONFIG.STORES.CATEGORIES,
                 DB_CONFIG.STORES.SETTINGS,
-                DB_CONFIG.STORES.GOALS
+                DB_CONFIG.STORES.GOALS,
+                DB_CONFIG.STORES.PERSONS,
+                DB_CONFIG.STORES.NOTE_TRANSACTIONS,
+                DB_CONFIG.STORES.SETTLEMENTS
             ];
 
             for (const storeName of stores) {
-                const tx = this.db.transaction(storeName, 'readwrite');
-                await tx.objectStore(storeName).clear();
-                await tx.done;
+                // Check if store exists before clearing (safe guard for older DBs)
+                if (this.db.objectStoreNames.contains(storeName)) {
+                    const tx = this.db.transaction(storeName, 'readwrite');
+                    await tx.objectStore(storeName).clear();
+                    await tx.done;
+                }
             }
         } else {
             const storage = useLocalStorage();
@@ -366,6 +540,9 @@ const storageService = {
             await storage.clear(STORAGE_KEYS.CATEGORIES);
             await storage.clear(STORAGE_KEYS.SETTINGS);
             await storage.clear(STORAGE_KEYS.GOALS);
+            await storage.clear('persons');
+            await storage.clear('note_transactions');
+            await storage.clear('settlements');
         }
 
         // Reinitialize defaults

@@ -2,6 +2,8 @@
     padding: 1rem;
     max-width: 1200px;
     margin: 0 auto;
+    padding-bottom: 80px;
+    /* Space for FAB */
 }
 
 .page-header {
@@ -196,6 +198,36 @@
     color: var(--text-secondary, #666);
 }
 
+/* FAB Styles */
+.fab-add-transfer {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: var(--color-primary, #16A34A);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100;
+    transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+
+.fab-add-transfer:hover {
+    transform: scale(1.05);
+    background: var(--color-primary-dark, #15803d);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+.fab-add-transfer:active {
+    transform: scale(0.95);
+}
+
 /* Dark mode */
 [data-theme="dark"] .page-header h1 {
     color: var(--text-primary, #e5e7eb);
@@ -214,6 +246,8 @@
 [data-theme="dark"] .filter-tab.active {
     background: var(--primary-color, #60a5fa);
     border-color: var(--primary-color, #60a5fa);
+    color: white;
+    /* Ensure text is white in active state */
 }
 
 [data-theme="dark"] .transfer-card {

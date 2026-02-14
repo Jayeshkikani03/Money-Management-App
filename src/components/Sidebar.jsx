@@ -6,7 +6,7 @@
 import { NavLink } from 'react-router-dom';
 import {
     X, Home, List, ArrowLeftRight, Wallet, BarChart3,
-    Settings, Calendar, CreditCard, Repeat
+    Settings, Calendar, CreditCard, Repeat, UserSquare2
 } from 'lucide-react';
 import './Sidebar.css';
 
@@ -15,6 +15,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { path: '/', icon: Home, label: 'Dashboard', exact: true },
         { path: '/transactions', icon: List, label: 'Transactions' },
         { path: '/transfers', icon: ArrowLeftRight, label: 'Transfers' },
+        { path: '/notes', icon: UserSquare2, label: 'Personal Notes' },
         { path: '/accounts', icon: Wallet, label: 'Accounts' },
         { path: '/scheduled', icon: Calendar, label: 'Scheduled' },
         { path: '/bills', icon: CreditCard, label: 'Bills' },

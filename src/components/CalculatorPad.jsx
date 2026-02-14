@@ -44,7 +44,7 @@ const CalculatorPad = ({
                 {/* Header */}
                 <div className="calculator-sheet-header">
                     <span className="sheet-title">Amount</span>
-                    <button className="close-btn" onClick={onClose}>
+                    <button type="button" className="close-btn" onClick={onClose}>
                         <X size={20} />
                     </button>
                 </div>
@@ -73,6 +73,7 @@ const CalculatorPad = ({
                                 {row.map((btn) => (
                                     <button
                                         key={btn}
+                                        type="button"
                                         className="keypad-btn number-btn"
                                         onClick={() => handleButtonClick(btn)}
                                     >
@@ -82,6 +83,7 @@ const CalculatorPad = ({
                                 {/* Add special button for each row */}
                                 {rowIndex === 0 && (
                                     <button
+                                        type="button"
                                         className="keypad-btn backspace-btn"
                                         onClick={() => handleButtonClick('backspace')}
                                     >
@@ -90,6 +92,7 @@ const CalculatorPad = ({
                                 )}
                                 {rowIndex === 1 && (
                                     <button
+                                        type="button"
                                         className="keypad-btn operator-btn"
                                         onClick={() => handleButtonClick('÷')}
                                     >
@@ -98,6 +101,7 @@ const CalculatorPad = ({
                                 )}
                                 {rowIndex === 2 && (
                                     <button
+                                        type="button"
                                         className="keypad-btn operator-btn"
                                         onClick={() => handleButtonClick('×')}
                                     >
@@ -109,24 +113,28 @@ const CalculatorPad = ({
 
                         {/* Last row: 0, ., Done */}
                         <button
+                            type="button"
                             className="keypad-btn number-btn"
                             onClick={() => handleButtonClick('0')}
                         >
                             0
                         </button>
                         <button
+                            type="button"
                             className="keypad-btn number-btn"
                             onClick={() => handleButtonClick('.')}
                         >
                             .
                         </button>
                         <button
+                            type="button"
                             className="keypad-btn operator-btn"
                             onClick={() => handleButtonClick('-')}
                         >
                             -
                         </button>
                         <button
+                            type="button"
                             className="keypad-btn operator-btn"
                             onClick={() => handleButtonClick('+')}
                         >
@@ -135,6 +143,7 @@ const CalculatorPad = ({
 
                         {/* Done button spans full width */}
                         <button
+                            type="button"
                             className="keypad-btn done-btn"
                             onClick={() => handleButtonClick('done')}
                         >

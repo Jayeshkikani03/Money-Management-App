@@ -56,12 +56,16 @@ export const DATE_FORMATS = {
 // IndexedDB configuration
 export const DB_CONFIG = {
     NAME: 'MoneyManagementDB',
-    VERSION: 1,
+    VERSION: 2,
     STORES: {
         TRANSACTIONS: 'transactions',
         CATEGORIES: 'categories',
         SETTINGS: 'settings',
-        GOALS: 'goals'
+        GOALS: 'goals',
+        // Notes Module Stores
+        PERSONS: 'persons',
+        NOTE_TRANSACTIONS: 'note_transactions',
+        SETTLEMENTS: 'settlements'
     }
 };
 
