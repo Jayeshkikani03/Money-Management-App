@@ -109,3 +109,8 @@
 .enhanced-transaction-item .transaction-amount.expense {
     color: var(--color-danger);
 }
+
+.enhanced-transaction-item .transaction-amount.transfer {
+    color: var(--color-text-secondary);
+    /* Neutral color for transfers */
+}

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Moon, Sun, Download, Trash2 } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Moon, Sun, Download, Trash2, Upload, FileJson, AlertCircle, CheckCircle } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import storageService from '../services/storageService';
+import backupService from '../services/backupService';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import Select from '../components/ui/Select';
@@ -12,6 +13,8 @@ import './Settings.css';
 const Settings = () => {
     const { settings, updateSettings, transactions } = useApp();
     const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState(null);
+    const fileInputRef = useRef(null);
 
     const handleThemeToggle = async () => {
         const newTheme = settings.theme === 'light' ? 'dark' : 'light';
@@ -22,13 +25,45 @@ const Settings = () => {
         await updateSettings({ currency: e.target.value });
     };
 
-    const handleExportJSON = async () => {
+    const handleBackup = async () => {
+        setLoading(true);
+        setMessage(null);
         try {
             const data = await storageService.exportData();
-            const jsonString = JSON.stringify(data, null, 2);
-            downloadFile(jsonString, `money-management-backup-${new Date().toISOString().split('T')[0]}.json`, 'application/json');
+            const meta = await backupService.backupToFile(data);
+            setMessage({ type: 'success', text: 'Backup downloaded successfully!' });
         } catch (error) {
-            alert('Failed to export data');
+            setMessage({ type: 'error', text: 'Backup failed. Please try again.' });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleRestoreClick = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleFileSelect = async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (!window.confirm('This will replace all your current data. Are you sure?')) {
+            e.target.value = '';
+            return;
+        }
+
+        setLoading(true);
+        setMessage(null);
+        try {
+            const data = await backupService.restoreFromFile(file);
+            await storageService.importData(data);
+            setMessage({ type: 'success', text: 'Data restored successfully! Please refresh the page.' });
+            setTimeout(() => window.location.reload(), 1500);
+        } catch (error) {
+            setMessage({ type: 'error', text: 'Restore failed. Please check the file and try again.' });
+        } finally {
+            setLoading(false);
+            e.target.value = '';
         }
     };
 
@@ -99,33 +134,74 @@ const Settings = () => {
                 </Card>
 
                 <Card>
-                    <h3>Data Export</h3>
-                    <div className="export-actions">
-                        <Button variant="secondary" fullWidth onClick={handleExportJSON}>
-                            <Download size={18} />
-                            Export as JSON
+                    <h3>Data Management</h3>
+
+                    {message && (
+                        <div className={`message ${message.type}`} style={{
+                            padding: '12px',
+                            borderRadius: '8px',
+                            marginBottom: '16px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            backgroundColor: message.type === 'success' ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+                            color: message.type === 'success' ? '#16a34a' : '#dc2626'
+                        }}>
+                            {message.type === 'success' ? <CheckCircle size={18} /> : <AlertCircle size={18} />}
+                            <span style={{ fontSize: '14px' }}>{message.text}</span>
+                        </div>
+                    )}
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                        <Button
+                            variant="primary"
+                            fullWidth
+                            onClick={handleBackup}
+                            disabled={loading}
+                        >
+                            <FileJson size={18} />
+                            {loading ? 'Processing...' : 'Backup Data (JSON)'}
                         </Button>
-                        <Button variant="secondary" fullWidth onClick={handleExportCSV}>
+
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            onChange={handleFileSelect}
+                            accept=".json"
+                            style={{ display: 'none' }}
+                        />
+
+                        <Button
+                            variant="secondary"
+                            fullWidth
+                            onClick={handleRestoreClick}
+                            disabled={loading}
+                        >
+                            <Upload size={18} />
+                            Restore Data
+                        </Button>
+
+                        <div style={{ height: '1px', background: 'var(--color-border)', margin: '8px 0' }}></div>
+
+                        <Button
+                            variant="outline"
+                            fullWidth
+                            onClick={handleExportCSV}
+                        >
                             <Download size={18} />
-                            Export as CSV
+                            Export Transactions (CSV)
+                        </Button>
+
+                        <Button
+                            variant="danger"
+                            fullWidth
+                            onClick={handleClearData}
+                            disabled={loading}
+                        >
+                            <Trash2 size={18} />
+                            Clear All Data
                         </Button>
                     </div>
-                </Card>
-
-                <Card>
-                    <h3>Danger Zone</h3>
-                    <p className="danger-description">
-                        This will permanently delete all your transactions, categories, and settings.
-                    </p>
-                    <Button
-                        variant="danger"
-                        fullWidth
-                        onClick={handleClearData}
-                        disabled={loading}
-                    >
-                        <Trash2 size={18} />
-                        {loading ? 'Clearing...' : 'Clear All Data'}
-                    </Button>
                 </Card>
 
                 <Card>
@@ -137,7 +213,7 @@ const Settings = () => {
                     </div>
                 </Card>
             </div>
-        </div>
+        </div >
     );
 };
 

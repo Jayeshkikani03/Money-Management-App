@@ -1,0 +1,8 @@
+.app {
+    min-height: 100vh;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Light and Dark mode variables are defined in index.css */

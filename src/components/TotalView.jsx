@@ -37,6 +37,27 @@ const TotalView = ({ transactions, month, year }) => {
 
     return (
         <div className="total-view">
+            {/* Year Summary */}
+            <div className="total-section year-summary">
+                <h3 className="year-title">{year} Summary</h3>
+                <div className="year-stats">
+                    <div className="year-stat-item">
+                        <span className="stat-label">Total Income</span>
+                        <span className="stat-value income">{formatCurrency(totals.totalIncome)}</span>
+                    </div>
+                    <div className="year-stat-item">
+                        <span className="stat-label">Total Expense</span>
+                        <span className="stat-value expense">{formatCurrency(totals.totalExpense)}</span>
+                    </div>
+                    <div className="year-stat-item">
+                        <span className="stat-label">Net Balance</span>
+                        <span className={`stat-value ${totals.total >= 0 ? 'income' : 'expense'}`}>
+                            {formatCurrency(Math.abs(totals.total))}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
             {/* Budget Section */}
             <div className="total-section budget-section">
                 <div className="section-header">
@@ -55,12 +76,12 @@ const TotalView = ({ transactions, month, year }) => {
                     <h3>Accounts</h3>
                 </div>
                 <div className="date-range">
-                    01.{String(month).padStart(2, '0')}.{year} ~ {new Date(year, month, 0).getDate()}.{String(month).padStart(2, '0')}
+                    Year {year}
                 </div>
 
                 <div className="account-items">
                     <div className="account-item">
-                        <span className="account-label">Compared Expenses (Last month)</span>
+                        <span className="account-label">Compared Expenses (Last year)</span>
                         <span className="account-value">{comparedExpensePercent}%</span>
                     </div>
 

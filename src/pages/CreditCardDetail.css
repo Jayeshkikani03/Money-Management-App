@@ -1,0 +1,50 @@
+/* Reuse BankAccountDetail styles where possible, extend for cards */
+@import url('./BankAccountDetail.css');
+
+.credit-card-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 80px;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.account-header-card.credit {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.2);
+}
+
+.usage-section {
+    margin-top: 10px;
+}
+
+.usage-bar-container {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.usage-fill {
+    height: 100%;
+    background: white;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.usage-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.usage-label {
+    opacity: 0.8;
+}
+
+.usage-amount {
+    font-weight: 600;
+}

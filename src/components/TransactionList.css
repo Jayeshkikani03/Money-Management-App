@@ -113,6 +113,10 @@
     color: var(--color-expense);
 }
 
+.transaction-amount.transfer {
+    color: var(--color-text-secondary);
+}
+
 .transaction-actions {
     display: flex;
     gap: var(--spacing-xs);

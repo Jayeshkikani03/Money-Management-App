@@ -1,0 +1,297 @@
+.accounts-page {
+    padding-bottom: 80px;
+    /* Space for bottom nav and FAB */
+}
+
+.page-header {
+    padding: 16px 0;
+    margin-bottom: 16px;
+}
+
+.page-header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+}
+
+.tabs-container {
+    display: flex;
+    background: var(--color-surface);
+    padding: 4px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid var(--color-border);
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.tab-btn.active {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+/* Account List Styles */
+.account-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.account-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.account-card:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.cash-card {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
+    border-color: rgba(16, 185, 129, 0.2);
+}
+
+.account-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.account-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.cash-icon {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+}
+
+.bank-icon {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+}
+
+.card-icon {
+    background: rgba(249, 115, 22, 0.1);
+    color: #f97316;
+}
+
+.account-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.account-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.account-sub {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+}
+
+.account-balance {
+    text-align: right;
+}
+
+.balance-label {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    margin-bottom: 4px;
+}
+
+.balance-amount {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.info-box {
+    background: rgba(59, 130, 246, 0.05);
+    border: 1px solid rgba(59, 130, 246, 0.1);
+    border-radius: 8px;
+    padding: 12px;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Card Specific Styles */
+.card-card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-usage-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.usage-bar-container {
+    height: 8px;
+    background: var(--color-bg);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.usage-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.usage-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.stat-item.right {
+    align-items: flex-end;
+}
+
+.stat-label {
+    font-size: 11px;
+    color: var(--color-text-secondary);
+}
+
+.stat-value {
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.available-credit {
+    font-size: 12px;
+    color: var(--color-success);
+    text-align: right;
+    font-weight: 500;
+}
+
+/* Empty State */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    text-align: center;
+    background: var(--color-surface);
+    border-radius: 12px;
+    border: 1px dashed var(--color-border);
+}
+
+.empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.empty-state p {
+    margin: 0 0 16px;
+    color: var(--color-text-secondary);
+}
+
+.add-btn-small {
+    padding: 8px 16px;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+/* Floating Action Button */
+.fab-add {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 90;
+}
+
+.fab-add:hover {
+    z-index: 95;
+    /* Higher than add FAB */
+}
+
+.fab-transfer:hover {
+    transform: scale(1.05);
+}
+
+.fab-transfer:active {
+    transform: scale(0.95);
+}
+
+/* Adjust Add FAB if both present, or maybe just replace it? 
+   For now, we have both which might overlap if we are not careful.
+   Let's move 'Add' FAB to left for now? Or stack them.
+   Actually, the 'Add' FAB is only conditioned inside the tabs.
+   I'll move Transfer FAB to the left or change position.
+*/
+.fab-transfer {
+    right: auto;
+    left: 20px;
+    /* Transfer on left */
+    background: #8b5cf6;
+    /* Violet */
+}

@@ -67,19 +67,26 @@ const Transactions = () => {
                         transactions={monthlyTransactions}
                         month={selectedMonth}
                         year={selectedYear}
+                        onTransactionClick={handleTransactionClick}
                     />
                 );
             case 'monthly':
                 return (
                     <MonthlyView
-                        transactions={transactions}
+                        transactions={transactions.filter(t => {
+                            const date = new Date(t.date);
+                            return date.getFullYear() === selectedYear;
+                        })}
                         year={selectedYear}
                     />
                 );
             case 'total':
                 return (
                     <TotalView
-                        transactions={monthlyTransactions}
+                        transactions={transactions.filter(t => {
+                            const date = new Date(t.date);
+                            return date.getFullYear() === selectedYear;
+                        })}
                         month={selectedMonth}
                         year={selectedYear}
                     />
@@ -107,6 +114,7 @@ const Transactions = () => {
                 month={selectedMonth}
                 year={selectedYear}
                 onMonthChange={handleMonthChange}
+                mode={activeTab === 'monthly' || activeTab === 'total' ? 'year' : 'month'}
             />
 
             <TabNavigation

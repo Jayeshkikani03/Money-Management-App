@@ -1,0 +1,63 @@
+/* Transfer Form Styles */
+.transfer-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 20px;
+}
+
+.transfer-arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-text-secondary);
+    padding: 8px 0;
+}
+
+.transfer-icon {
+    font-size: 24px;
+    color: var(--color-primary);
+}
+
+.account-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.selected-account {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.selected-account:hover {
+    border-color: var(--color-primary);
+    background: var(--color-hover);
+}
+
+.account-details-mini {
+    flex: 1;
+}
+
+.account-name-mini {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--color-text);
+}
+
+.account-balance-mini {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+}
+
+.placeholder-text {
+    color: var(--color-text-secondary);
+    font-size: 14px;
+}

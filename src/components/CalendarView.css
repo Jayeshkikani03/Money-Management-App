@@ -28,6 +28,15 @@
     flex-direction: column;
     gap: 2px;
     position: relative;
+    transition: background 0.2s ease;
+}
+
+.calendar-day.has-transactions {
+    cursor: pointer;
+}
+
+.calendar-day.has-transactions:hover {
+    background: var(--color-hover);
 }
 
 .calendar-day.other-month {
@@ -52,6 +61,98 @@
     font-size: 10px;
     color: var(--color-expense);
     font-weight: 500;
+}
+
+/* Daily Transactions Modal */
+.daily-transactions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.daily-summary {
+    display: flex;
+    gap: 12px;
+    padding: 12px;
+    background: var(--color-surface);
+    border-radius: 8px;
+}
+
+.daily-summary-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.daily-summary-item .label {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+}
+
+.daily-summary-item .amount {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.daily-summary-item.income .amount {
+    color: var(--color-income);
+}
+
+.daily-summary-item.expense .amount {
+    color: var(--color-expense);
+}
+
+.transaction-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: var(--color-card);
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.transaction-item:hover {
+    background: var(--color-hover);
+}
+
+.transaction-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.transaction-category {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+.transaction-notes {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+}
+
+.transaction-amount {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.transaction-amount.income {
+    color: var(--color-income);
+}
+
+.transaction-amount.expense {
+    color: var(--color-expense);
 }
 
 /* Responsive adjustments */
