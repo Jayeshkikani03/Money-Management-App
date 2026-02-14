@@ -270,8 +270,11 @@
 }
 
 .fab-add:hover {
-    z-index: 95;
-    /* Higher than add FAB */
+    transform: scale(1.05);
+}
+
+.fab-add:active {
+    transform: scale(0.95);
 }
 
 .fab-transfer:hover {

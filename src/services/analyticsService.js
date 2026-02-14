@@ -7,6 +7,7 @@ import { filterTransactionsByMonth, groupByCategory } from '../utils/helpers';
 const analyticsService = {
     /**
      * Calculate current balance
+     * CRITICAL: Only includes income and expense types, transfers are excluded
      */
     calculateBalance(transactions) {
         const income = transactions
@@ -16,6 +17,9 @@ const analyticsService = {
         const expense = transactions
             .filter(t => t.type === 'expense')
             .reduce((sum, t) => sum + t.amount, 0);
+
+        // Transfers are automatically excluded by filtering only 'income' and 'expense' types
+        // This prevents double-counting in financial reports
 
         return {
             balance: income - expense,

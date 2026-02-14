@@ -200,7 +200,7 @@ const TransferForm = ({ onClose, onSuccess }) => {
                                 <div className="account-icon-small">{fromAccountDetails.icon}</div>
                                 <div className="account-details-mini">
                                     <div className="account-name-mini">{fromAccountDetails.name}</div>
-                                    <div className="account-balance-mini">Balance: ₹{fromAccountDetails.balance?.toFixed(2)}</div>
+                                    <div className="account-balance-mini">Balance: ₹{(Number(fromAccountDetails.balance) || 0).toFixed(2)}</div>
                                 </div>
                                 <div className="change-account">Change</div>
                             </>
@@ -259,8 +259,8 @@ const TransferForm = ({ onClose, onSuccess }) => {
                                     <div className="account-name-mini">{toAccountDetails.name}</div>
                                     <div className="account-balance-mini">
                                         {formData.toType === ACCOUNT_TYPES.CREDIT
-                                            ? `Used: ₹${toAccountDetails.usedAmount?.toFixed(2)}`
-                                            : `Balance: ₹${toAccountDetails.balance?.toFixed(2)}`
+                                            ? `Used: ₹${(Number(toAccountDetails.usedAmount) || 0).toFixed(2)}`
+                                            : `Balance: ₹${(Number(toAccountDetails.balance) || 0).toFixed(2)}`
                                         }
                                     </div>
                                 </div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ArrowLeftRight } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { ACCOUNT_TYPES, ACCOUNT_TYPE_ICONS } from '../constants/accountTypes';
 import * as accountService from '../services/accountService';
@@ -218,8 +219,8 @@ const Accounts = () => {
             </div>
 
             {/* Floating Transfer Button */}
-            <button className="fab-transfer" onClick={() => setShowTransferModal(true)}>
-                ⇄
+            <button className="fab-transfer" onClick={() => setShowTransferModal(true)} title="Transfer Funds">
+                <ArrowLeftRight size={24} />
             </button>
 
             {/* Modals */}

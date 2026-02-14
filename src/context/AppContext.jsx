@@ -5,6 +5,12 @@ import { createTransaction } from '../models/transactionModel';
 import { createCategory } from '../models/categoryModel';
 import * as accountService from '../services/accountService';
 import * as cardService from '../services/cardService';
+import * as cashService from '../services/cashService';
+import transferService from '../services/transferService';
+import recurringEngine from '../services/recurringEngine';
+import installmentEngine from '../services/installmentEngine';
+import billingEngine from '../services/billingEngine';
+import autoExecutionService from '../services/autoExecutionService';
 import { ACCOUNT_TYPES, TRANSACTION_TYPES } from '../constants/accountTypes';
 
 const AppContext = createContext();
@@ -24,6 +30,7 @@ export const AppProvider = ({ children }) => {
     const [goals, setGoals] = useState([]);
     const [bankAccounts, setBankAccounts] = useState([]);
     const [creditCards, setCreditCards] = useState([]);
+    const [cashAccount, setCashAccount] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -41,9 +48,10 @@ export const AppProvider = ({ children }) => {
                     storageService.loadGoals()
                 ]);
 
-                // Load bank accounts and credit cards
+                // Load bank accounts, credit cards, and cash account
                 const loadedBankAccounts = accountService.getAllBankAccounts();
                 const loadedCreditCards = cardService.getAllCreditCards();
+                const loadedCashAccount = cashService.getCashAccount();
 
                 setTransactions(loadedTransactions || []);
                 setCategories(loadedCategories || []);
@@ -51,6 +59,24 @@ export const AppProvider = ({ children }) => {
                 setGoals(loadedGoals || []);
                 setBankAccounts(loadedBankAccounts || []);
                 setCreditCards(loadedCreditCards || []);
+                setCashAccount(loadedCashAccount);
+
+                // Run auto-execution after data is loaded
+                // This will execute due recurring transactions, installments, and generate billing statements
+                const context = {
+                    addTransaction: (data) => {
+                        const transaction = createTransaction(data);
+                        storageService.addTransaction(transaction);
+                        setTransactions(prev => [...prev, transaction]);
+                        return transaction;
+                    },
+                    creditCards: loadedCreditCards || []
+                };
+
+                await autoExecutionService.runAutoExecution(context);
+
+                // Setup midnight scheduler for future executions
+                autoExecutionService.setupMidnightScheduler(context);
             } catch (err) {
                 console.error('Failed to initialize app:', err);
                 setError('Failed to load data');
@@ -277,37 +303,35 @@ export const AppProvider = ({ children }) => {
         try {
             const amount = parseFloat(transferData.amount);
 
-            // 1. Update Source Account
-            if (transferData.fromType === ACCOUNT_TYPES.BANK && transferData.fromId) {
-                accountService.updateBankBalance(transferData.fromId, amount, 'subtract');
-                setBankAccounts(accountService.getAllBankAccounts());
-            }
+            // Capture before balances
+            const beforeBalances = transferService.captureBalances(transferData);
 
-            // 2. Update Destination Account
-            if (transferData.toType === ACCOUNT_TYPES.BANK && transferData.toId) {
-                accountService.updateBankBalance(transferData.toId, amount, 'add');
-                setBankAccounts(accountService.getAllBankAccounts());
-            } else if (transferData.toType === ACCOUNT_TYPES.CREDIT && transferData.toId) {
-                // Payment to credit card reduces used amount
-                cardService.updateCardUsedAmount(transferData.toId, amount, 'subtract');
-                setCreditCards(cardService.getAllCreditCards());
-            }
+            // Execute transfer using transfer service
+            const result = await transferService.executeTransfer(transferData);
 
-            // 3. Create Transaction Record
+            // Create transaction record with ledger tracking
             const transaction = createTransaction({
                 amount: amount,
                 type: TRANSACTION_TYPES.TRANSFER,
                 category: 'Transfer',
                 date: new Date(transferData.date).toISOString(),
                 notes: transferData.notes,
-                accountType: transferData.fromType,
-                accountId: transferData.fromId,
+                fromAccountType: transferData.fromType,
+                fromAccountId: transferData.fromId,
                 toAccountType: transferData.toType,
-                toAccountId: transferData.toId
+                toAccountId: transferData.toId,
+                beforeBalance: beforeBalances.from,
+                afterBalance: result.afterBalances.from
             });
 
             await storageService.addTransaction(transaction);
             setTransactions(prev => [...prev, transaction]);
+
+            // Refresh all account states
+            setBankAccounts(accountService.getAllBankAccounts());
+            setCreditCards(cardService.getAllCreditCards());
+            setCashAccount(cashService.getCashAccount());
+
             return transaction;
         } catch (err) {
             console.error('Failed to process transfer:', err);
@@ -323,6 +347,7 @@ export const AppProvider = ({ children }) => {
         goals,
         bankAccounts,
         creditCards,
+        cashAccount,
         loading,
         error,
 
@@ -352,6 +377,16 @@ export const AppProvider = ({ children }) => {
         addCreditCard,
         updateCreditCard,
         deleteCreditCard,
+
+        // Cash Account operations
+        updateCashBalance: (amount, operation) => {
+            cashService.updateCashBalance(amount, operation);
+            setCashAccount(cashService.getCashAccount());
+        },
+        setCashBalance: (balance) => {
+            cashService.setCashBalance(balance);
+            setCashAccount(cashService.getCashAccount());
+        },
 
         // Analytics
         getBalance,

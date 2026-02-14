@@ -4,6 +4,9 @@ import CalculatorInput from './CalculatorInput';
 import Input from './ui/Input';
 import Select from './ui/Select';
 import Button from './ui/Button';
+import ChargesFeeSelector from './ChargesFeeSelector';
+import RecurringSetupModal from './RecurringSetupModal';
+import InstallmentSetupModal from './InstallmentSetupModal';
 import { validateTransaction } from '../utils/helpers';
 import { ACCOUNT_TYPES, ACCOUNT_TYPE_ICONS } from '../constants/accountTypes';
 import BankAccountListModal from './BankAccountListModal';
@@ -22,12 +25,17 @@ const TransactionForm = ({ transaction, onClose, onSuccess }) => {
         date: new Date().toISOString().split('T')[0],
         notes: '',
         accountType: ACCOUNT_TYPES.CASH,
-        accountId: null
+        accountId: null,
+        isCharge: false,
+        chargeType: null,
+        chargeDescription: ''
     });
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const [showBankModal, setShowBankModal] = useState(false);
     const [showCardModal, setShowCardModal] = useState(false);
+    const [showRecurringModal, setShowRecurringModal] = useState(false);
+    const [showInstallmentModal, setShowInstallmentModal] = useState(false);
     const [selectedAccountDetails, setSelectedAccountDetails] = useState(null);
 
     useEffect(() => {
@@ -36,7 +44,10 @@ const TransactionForm = ({ transaction, onClose, onSuccess }) => {
                 ...transaction,
                 date: transaction.date.split('T')[0],
                 accountType: transaction.accountType || ACCOUNT_TYPES.CASH,
-                accountId: transaction.accountId || null
+                accountId: transaction.accountId || null,
+                isCharge: transaction.isCharge || false,
+                chargeType: transaction.chargeType || null,
+                chargeDescription: transaction.chargeDescription || ''
             });
         }
     }, [transaction]);
@@ -85,6 +96,15 @@ const TransactionForm = ({ transaction, onClose, onSuccess }) => {
         if (errors.account) {
             setErrors(prev => ({ ...prev, account: '' }));
         }
+    };
+
+    const handleChargeChange = (chargeData) => {
+        setFormData(prev => ({
+            ...prev,
+            ...chargeData,
+            // If it's a charge, force type to expense
+            type: chargeData.isCharge ? 'expense' : prev.type
+        }));
     };
 
     const handleSubmit = async (e) => {
@@ -270,6 +290,16 @@ const TransactionForm = ({ transaction, onClose, onSuccess }) => {
                 required
             />
 
+            {/* Charge/Fee Selector - Only for expenses */}
+            {formData.type === 'expense' && (
+                <ChargesFeeSelector
+                    isCharge={formData.isCharge}
+                    chargeType={formData.chargeType}
+                    chargeDescription={formData.chargeDescription}
+                    onChange={handleChargeChange}
+                />
+            )}
+
             <div className="input-group">
                 <label className="input-label">Notes (Optional)</label>
                 <textarea
@@ -306,6 +336,25 @@ const TransactionForm = ({ transaction, onClose, onSuccess }) => {
                 isOpen={showCardModal}
                 onClose={() => setShowCardModal(false)}
                 onSelectCard={handleAccountSelect}
+            />
+
+            {/* Recurring & Installment Modals */}
+            <RecurringSetupModal
+                isOpen={showRecurringModal}
+                onClose={() => setShowRecurringModal(false)}
+                transactionData={formData}
+                onSave={(data) => {
+                    setFormData(prev => ({ ...prev, ...data }));
+                }}
+            />
+
+            <InstallmentSetupModal
+                isOpen={showInstallmentModal}
+                onClose={() => setShowInstallmentModal(false)}
+                transactionData={formData}
+                onSave={(data) => {
+                    setFormData(prev => ({ ...prev, ...data }));
+                }}
             />
         </form>
     );

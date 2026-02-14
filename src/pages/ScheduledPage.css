@@ -1,0 +1,188 @@
+.scheduled-page {
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.scheduled-section {
+    margin-bottom: 2.5rem;
+}
+
+.section-title {
+    margin: 0 0 1rem 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary, #1a1a1a);
+}
+
+.scheduled-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.scheduled-card {
+    background: white;
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 12px;
+    padding: 1.25rem;
+    transition: box-shadow 0.2s;
+}
+
+.scheduled-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.scheduled-card.recurring {
+    border-left: 4px solid #10b981;
+}
+
+.scheduled-card.installment {
+    border-left: 4px solid #f59e0b;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.card-title {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.type-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    width: fit-content;
+}
+
+.recurring-badge {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.installment-badge {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.description {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary, #1a1a1a);
+}
+
+.amount {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color, #3b82f6);
+}
+
+.card-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.detail-row .label {
+    color: var(--text-secondary, #666);
+    font-weight: 500;
+}
+
+.detail-row .value {
+    color: var(--text-primary, #1a1a1a);
+    font-weight: 600;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--surface-color, #e5e7eb);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0.5rem 0;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #10b981, #059669);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.empty-state-small {
+    text-align: center;
+    padding: 2rem;
+    background: var(--surface-color, #f8f9fa);
+    border-radius: 8px;
+    border: 1px dashed var(--border-color, #e0e0e0);
+}
+
+.empty-state-small p {
+    margin: 0;
+    color: var(--text-secondary, #666);
+    font-size: 0.95rem;
+}
+
+/* Dark mode */
+[data-theme="dark"] .section-title {
+    color: var(--text-primary, #e5e7eb);
+}
+
+[data-theme="dark"] .scheduled-card {
+    background: var(--surface-color, #2a2a2a);
+    border-color: var(--border-color, #404040);
+}
+
+[data-theme="dark"] .recurring-badge {
+    background: #064e3b;
+    color: #6ee7b7;
+}
+
+[data-theme="dark"] .installment-badge {
+    background: #78350f;
+    color: #fcd34d;
+}
+
+[data-theme="dark"] .description {
+    color: var(--text-primary, #e5e7eb);
+}
+
+[data-theme="dark"] .detail-row .label {
+    color: var(--text-secondary, #9ca3af);
+}
+
+[data-theme="dark"] .detail-row .value {
+    color: var(--text-primary, #e5e7eb);
+}
+
+[data-theme="dark"] .progress-bar {
+    background: var(--surface-color, #374151);
+}
+
+[data-theme="dark"] .empty-state-small {
+    background: var(--surface-color, #1a1a1a);
+    border-color: var(--border-color, #404040);
+}
+
+[data-theme="dark"] .empty-state-small p {
+    color: var(--text-secondary, #9ca3af);
+}

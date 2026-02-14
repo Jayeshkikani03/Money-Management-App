@@ -1,12 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, List, BarChart3, Settings, Wallet } from 'lucide-react';
+import { Home, List, BarChart3, Settings, Wallet, ArrowLeftRight } from 'lucide-react';
 import './BottomNav.css';
 
 const BottomNav = () => {
     const navItems = [
         { path: '/', icon: Home, label: 'Home' },
         { path: '/transactions', icon: List, label: 'Transactions' },
+        // { path: '/transfers', icon: ArrowLeftRight, label: 'Transfers' },
         { path: '/accounts', icon: Wallet, label: 'Accounts' },
         { path: '/reports', icon: BarChart3, label: 'Reports' },
         { path: '/settings', icon: Settings, label: 'Settings' }

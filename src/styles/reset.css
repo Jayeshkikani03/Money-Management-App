@@ -1,0 +1,104 @@
+/**
+ * CSS Reset
+ * Normalize browser defaults
+ */
+
+/* Box sizing */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Remove default margins */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* HTML and Body */
+html,
+body {
+    height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Media defaults */
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+/* Form elements */
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+/* Remove button styles */
+button {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+/* Remove input number arrows */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type='number'] {
+    -moz-appearance: textfield;
+}
+
+/* Remove default outline but keep focus visible */
+:focus {
+    outline: none;
+}
+
+:focus-visible {
+    outline: 2px solid #2563EB;
+    outline-offset: 2px;
+}
+
+/* Prevent text overflow */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+}
+
+/* Root stacking context */
+#root {
+    isolation: isolate;
+}
+
+/* Remove list styles */
+ul,
+ol {
+    list-style: none;
+}
+
+/* Remove link styles */
+a {
+    text-decoration: none;
+    color: inherit;
+}

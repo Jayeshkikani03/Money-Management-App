@@ -1,0 +1,231 @@
+.bills-page {
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.bills-section {
+    margin-bottom: 2.5rem;
+}
+
+.overdue-section {
+    padding: 1rem;
+    background: #fef2f2;
+    border-radius: 12px;
+    border: 2px solid #fca5a5;
+}
+
+.bills-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.bill-card {
+    background: white;
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 12px;
+    padding: 1.25rem;
+    transition: box-shadow 0.2s;
+}
+
+.bill-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.bill-card.overdue {
+    border-left: 4px solid #dc2626;
+    background: #fef2f2;
+}
+
+.bill-card.urgent {
+    border-left: 4px solid #f59e0b;
+}
+
+.bill-card.warning {
+    border-left: 4px solid #fbbf24;
+}
+
+.bill-card.normal {
+    border-left: 4px solid #10b981;
+}
+
+.bill-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.bill-info {
+    flex: 1;
+}
+
+.card-name {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary, #1a1a1a);
+}
+
+.due-badge,
+.overdue-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.due-badge.overdue,
+.overdue-badge {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.due-badge.urgent {
+    background: #fed7aa;
+    color: #9a3412;
+}
+
+.due-badge.warning {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.due-badge.normal {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.bill-amount {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--primary-color, #3b82f6);
+}
+
+.bill-amount.overdue-amount {
+    color: #dc2626;
+}
+
+.bill-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color, #e0e0e0);
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.detail-item .label {
+    color: var(--text-secondary, #666);
+    font-weight: 500;
+}
+
+.detail-item .value {
+    color: var(--text-primary, #1a1a1a);
+    font-weight: 600;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.empty-state h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+    color: var(--text-primary, #1a1a1a);
+}
+
+.empty-state p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--text-secondary, #666);
+}
+
+.empty-state-small {
+    text-align: center;
+    padding: 2rem;
+    background: var(--surface-color, #f8f9fa);
+    border-radius: 8px;
+    border: 1px dashed var(--border-color, #e0e0e0);
+}
+
+.empty-state-small p {
+    margin: 0;
+    color: var(--text-secondary, #666);
+    font-size: 0.95rem;
+}
+
+/* Dark mode */
+[data-theme="dark"] .overdue-section {
+    background: #450a0a;
+    border-color: #991b1b;
+}
+
+[data-theme="dark"] .bill-card {
+    background: var(--surface-color, #2a2a2a);
+    border-color: var(--border-color, #404040);
+}
+
+[data-theme="dark"] .bill-card.overdue {
+    background: #450a0a;
+}
+
+[data-theme="dark"] .card-name {
+    color: var(--text-primary, #e5e7eb);
+}
+
+[data-theme="dark"] .due-badge.overdue,
+[data-theme="dark"] .overdue-badge {
+    background: #7f1d1d;
+    color: #fca5a5;
+}
+
+[data-theme="dark"] .due-badge.urgent {
+    background: #78350f;
+    color: #fcd34d;
+}
+
+[data-theme="dark"] .due-badge.warning {
+    background: #713f12;
+    color: #fde047;
+}
+
+[data-theme="dark"] .due-badge.normal {
+    background: #064e3b;
+    color: #6ee7b7;
+}
+
+[data-theme="dark"] .detail-item .label {
+    color: var(--text-secondary, #9ca3af);
+}
+
+[data-theme="dark"] .detail-item .value {
+    color: var(--text-primary, #e5e7eb);
+}
+
+[data-theme="dark"] .empty-state h3 {
+    color: var(--text-primary, #e5e7eb);
+}
+
+[data-theme="dark"] .empty-state-small {
+    background: var(--surface-color, #1a1a1a);
+    border-color: var(--border-color, #404040);
+}

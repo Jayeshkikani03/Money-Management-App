@@ -1,84 +1,173 @@
+/**
+ * Button Component Styles
+ * Unified button system with variants
+ */
+
+/* Base Button Styles */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--spacing-sm);
-    font-weight: 600;
-    border-radius: var(--radius-md);
-    transition: all var(--transition-fast);
+    gap: 8px;
+    font-family: var(--font-family);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
     border: none;
+    border-radius: var(--radius-md);
     cursor: pointer;
+    transition: all var(--transition-fast);
+    user-select: none;
+    white-space: nowrap;
+    min-height: 44px;
 }
 
-.btn:hover:not(:disabled) {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
-}
-
-.btn:active:not(:disabled) {
-    transform: translateY(0);
-}
-
-.btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-/* Variants */
-.btn-primary {
-    background-color: var(--color-secondary);
-    color: white;
-}
-
-.btn-primary:hover:not(:disabled) {
-    background-color: var(--color-secondary-hover);
-}
-
-.btn-success {
-    background-color: var(--color-primary);
-    color: white;
-}
-
-.btn-success:hover:not(:disabled) {
-    background-color: var(--color-primary-hover);
-}
-
-.btn-danger {
-    background-color: var(--color-expense);
-    color: white;
-}
-
-.btn-danger:hover:not(:disabled) {
-    background-color: #B91C1C;
-}
-
-.btn-secondary {
-    background-color: var(--color-card);
-    color: var(--color-text-primary);
-    border: 1px solid var(--color-border);
-}
-
-.btn-secondary:hover:not(:disabled) {
-    background-color: var(--color-background);
+.btn:active:not(.btn-disabled) {
+    transform: scale(0.98);
 }
 
 /* Sizes */
 .btn-small {
     padding: 8px 16px;
     font-size: 12px;
+    min-height: 36px;
 }
 
 .btn-medium {
     padding: 12px 20px;
     font-size: 14px;
+    min-height: 44px;
 }
 
 .btn-large {
     padding: 16px 24px;
     font-size: 16px;
+    min-height: 52px;
 }
 
-/* Full width */
-.btn-full {
+/* Full Width */
+.btn-full-width {
     width: 100%;
+}
+
+/* Primary Variant */
+.btn-primary {
+    background: var(--color-primary);
+    color: white;
+}
+
+.btn-primary:hover:not(.btn-disabled) {
+    background: var(--color-primary-hover);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+/* Secondary Variant */
+.btn-secondary {
+    background: var(--color-surface);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+}
+
+.btn-secondary:hover:not(.btn-disabled) {
+    background: var(--color-background);
+    border-color: var(--color-primary);
+}
+
+/* Success Variant */
+.btn-success {
+    background: var(--color-success);
+    color: white;
+}
+
+.btn-success:hover:not(.btn-disabled) {
+    background: #15803D;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+}
+
+/* Danger Variant */
+.btn-danger {
+    background: var(--color-danger);
+    color: white;
+}
+
+.btn-danger:hover:not(.btn-disabled) {
+    background: #B91C1C;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+/* Ghost Variant */
+.btn-ghost {
+    background: transparent;
+    color: var(--color-text-primary);
+}
+
+.btn-ghost:hover:not(.btn-disabled) {
+    background: var(--color-background);
+}
+
+/* Outline Variant */
+.btn-outline {
+    background: transparent;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+}
+
+.btn-outline:hover:not(.btn-disabled) {
+    background: var(--color-primary);
+    color: white;
+}
+
+/* Disabled State */
+.btn-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Loading State */
+.btn-loading {
+    position: relative;
+    color: transparent;
+}
+
+.btn-spinner {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Icon */
+.btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Dark Mode */
+[data-theme="dark"] .btn-secondary {
+    background: var(--color-surface);
+    border-color: var(--color-border);
+}
+
+[data-theme="dark"] .btn-secondary:hover:not(.btn-disabled) {
+    background: #334155;
+}
+
+[data-theme="dark"] .btn-ghost:hover:not(.btn-disabled) {
+    background: var(--color-surface);
 }

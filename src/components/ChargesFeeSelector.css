@@ -1,0 +1,127 @@
+.charges-fee-selector {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--surface-color, #f8f9fa);
+    border-radius: 8px;
+    border: 1px solid var(--border-color, #e0e0e0);
+}
+
+.charge-toggle {
+    margin-bottom: 1rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
+.checkbox-text {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-primary, #1a1a1a);
+}
+
+.charge-hint {
+    margin: 0.5rem 0 0 1.75rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary, #666);
+    font-style: italic;
+}
+
+.charge-type-selector {
+    margin-top: 1rem;
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.charge-type-selector .input-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary, #1a1a1a);
+}
+
+.charge-type-selector .select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 6px;
+    background: white;
+    font-size: 0.95rem;
+    color: var(--text-primary, #1a1a1a);
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.charge-type-selector .select:focus {
+    outline: none;
+    border-color: var(--primary-color, #3b82f6);
+}
+
+.custom-charge-input {
+    margin-top: 0.75rem;
+}
+
+.custom-charge-input .input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    color: var(--text-primary, #1a1a1a);
+    transition: border-color 0.2s;
+}
+
+.custom-charge-input .input:focus {
+    outline: none;
+    border-color: var(--primary-color, #3b82f6);
+}
+
+.custom-charge-input .input::placeholder {
+    color: var(--text-tertiary, #999);
+}
+
+/* Dark mode support */
+[data-theme="dark"] .charges-fee-selector {
+    background: var(--surface-color, #2a2a2a);
+    border-color: var(--border-color, #404040);
+}
+
+[data-theme="dark"] .checkbox-text {
+    color: var(--text-primary, #e0e0e0);
+}
+
+[data-theme="dark"] .charge-hint {
+    color: var(--text-secondary, #999);
+}
+
+[data-theme="dark"] .charge-type-selector .input-label {
+    color: var(--text-primary, #e0e0e0);
+}
+
+[data-theme="dark"] .charge-type-selector .select,
+[data-theme="dark"] .custom-charge-input .input {
+    background: var(--input-bg, #1a1a1a);
+    border-color: var(--border-color, #404040);
+    color: var(--text-primary, #e0e0e0);
+}

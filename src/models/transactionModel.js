@@ -13,8 +13,32 @@ export const createTransaction = (data) => {
         notes: data.notes || '',
         accountType: data.accountType || 'cash',
         accountId: data.accountId || null,
-        toAccountType: data.toAccountType || null, // for transfers
-        toAccountId: data.toAccountId || null,     // for transfers
+
+        // Transfer fields
+        toAccountType: data.toAccountType || null,
+        toAccountId: data.toAccountId || null,
+        fromAccountType: data.fromAccountType || null,
+        fromAccountId: data.fromAccountId || null,
+
+        // Ledger tracking
+        beforeBalance: data.beforeBalance || null,
+        afterBalance: data.afterBalance || null,
+
+        // Recurring fields
+        isRecurring: data.isRecurring || false,
+        recurringParentId: data.recurringParentId || null,
+
+        // Installment fields
+        isInstallment: data.isInstallment || false,
+        installmentParentId: data.installmentParentId || null,
+        installmentNumber: data.installmentNumber || null,
+        totalInstallments: data.totalInstallments || null,
+
+        // Charge/Fee fields
+        isCharge: data.isCharge || false,
+        chargeType: data.chargeType || null,
+        chargeDescription: data.chargeDescription || null,
+
         createdAt: data.createdAt || Date.now()
     };
 };
