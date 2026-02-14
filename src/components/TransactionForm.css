@@ -1,0 +1,75 @@
+.transaction-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.form-row {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.type-selector {
+    flex: 1;
+}
+
+.type-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.type-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-sm);
+}
+
+.type-button {
+    padding: 12px;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-card);
+    color: var(--color-text-primary);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.type-button:hover {
+    border-color: var(--color-text-secondary);
+}
+
+.type-button.active {
+    color: white;
+}
+
+.type-button.active.income {
+    background-color: var(--color-income);
+    border-color: var(--color-income);
+}
+
+.type-button.active.expense {
+    background-color: var(--color-expense);
+    border-color: var(--color-expense);
+}
+
+.form-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+}
+
+.form-actions button {
+    flex: 1;
+}
+
+.error-message {
+    padding: var(--spacing-md);
+    background-color: var(--color-expense-light);
+    color: var(--color-expense);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+}

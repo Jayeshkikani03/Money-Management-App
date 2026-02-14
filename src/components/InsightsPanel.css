@@ -1,0 +1,58 @@
+.insights-panel h3 {
+    margin-bottom: var(--spacing-md);
+    font-size: 18px;
+}
+
+.insights-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.insight-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    border-left: 4px solid;
+}
+
+.insight-item.warning {
+    background-color: #FEF3C7;
+    border-color: #F59E0B;
+}
+
+.insight-item.success {
+    background-color: var(--color-primary-light);
+    border-color: var(--color-income);
+}
+
+.insight-item.info {
+    background-color: var(--color-secondary-light);
+    border-color: var(--color-secondary);
+}
+
+.insight-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.insight-item.warning .insight-icon {
+    color: #F59E0B;
+}
+
+.insight-item.success .insight-icon {
+    color: var(--color-income);
+}
+
+.insight-item.info .insight-icon {
+    color: var(--color-secondary);
+}
+
+.insight-message {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-text-primary);
+}

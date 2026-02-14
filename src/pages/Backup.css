@@ -1,0 +1,90 @@
+.backup-page {
+    padding-bottom: var(--spacing-lg);
+}
+
+.backup-content {
+    display: grid;
+    gap: var(--spacing-lg);
+}
+
+.backup-status {
+    text-align: center;
+    padding: var(--spacing-lg) 0;
+}
+
+.backup-status h3 {
+    margin: var(--spacing-md) 0 var(--spacing-sm);
+}
+
+.status-text {
+    color: var(--color-text-secondary);
+    margin-bottom: 0;
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    margin: var(--spacing-md) 0;
+}
+
+.message.success {
+    background-color: var(--color-primary-light);
+    color: var(--color-income);
+}
+
+.message.error {
+    background-color: var(--color-expense-light);
+    color: var(--color-expense);
+}
+
+.backup-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin: var(--spacing-lg) 0;
+}
+
+.backup-info {
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--color-border);
+    text-align: center;
+}
+
+.info-label {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    margin-bottom: 4px;
+}
+
+.info-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 0;
+}
+
+.instructions-list {
+    padding-left: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+}
+
+.instructions-list li {
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-primary);
+}
+
+.instructions-note {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    font-style: italic;
+    margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+    .backup-content {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

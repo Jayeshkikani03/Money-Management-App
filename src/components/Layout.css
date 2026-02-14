@@ -1,0 +1,19 @@
+.app-layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-background);
+}
+
+.main-content {
+    flex: 1;
+    padding-bottom: 80px;
+    /* Space for bottom nav */
+    padding-top: var(--spacing-lg);
+}
+
+@media (max-width: 640px) {
+    .main-content {
+        padding-top: var(--spacing-md);
+    }
+}

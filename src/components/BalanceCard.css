@@ -1,0 +1,73 @@
+.balance-card {
+    text-align: center;
+}
+
+.balance-header h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-md);
+}
+
+.balance-amount {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: var(--spacing-lg);
+}
+
+.balance-amount.positive {
+    color: var(--color-income);
+}
+
+.balance-amount.negative {
+    color: var(--color-expense);
+}
+
+.balance-breakdown {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+}
+
+.breakdown-item {
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.breakdown-item.income {
+    background-color: var(--color-primary-light);
+}
+
+.breakdown-item.expense {
+    background-color: var(--color-expense-light);
+}
+
+.breakdown-label {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.breakdown-item.income .breakdown-label {
+    color: var(--color-income);
+}
+
+.breakdown-item.expense .breakdown-label {
+    color: var(--color-expense);
+}
+
+.breakdown-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+@media (max-width: 640px) {
+    .balance-amount {
+        font-size: 28px;
+    }
+}

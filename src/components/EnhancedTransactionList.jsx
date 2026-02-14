@@ -1,0 +1,83 @@
+import React, { useMemo } from 'react';
+import { useApp } from '../context/AppContext';
+import CategoryIcon from './CategoryIcon';
+import { formatCurrency, formatDate } from '../utils/helpers';
+import './EnhancedTransactionList.css';
+
+const EnhancedTransactionList = ({ transactions, onTransactionClick }) => {
+    const { settings } = useApp();
+
+    // Group transactions by date
+    const groupedTransactions = useMemo(() => {
+        const groups = {};
+
+        transactions.forEach(transaction => {
+            const date = new Date(transaction.date);
+            const dateKey = date.toISOString().split('T')[0];
+
+            if (!groups[dateKey]) {
+                groups[dateKey] = {
+                    date: dateKey,
+                    displayDate: formatDate(transaction.date),
+                    transactions: []
+                };
+            }
+
+            groups[dateKey].transactions.push(transaction);
+        });
+
+        // Sort groups by date (newest first)
+        return Object.values(groups).sort((a, b) =>
+            new Date(b.date) - new Date(a.date)
+        );
+    }, [transactions]);
+
+    if (transactions.length === 0) {
+        return (
+            <div className="empty-transactions">
+                <p>No transactions yet</p>
+                <span>Tap the + button to add your first transaction</span>
+            </div>
+        );
+    }
+
+    return (
+        <div className="enhanced-transaction-list">
+            {groupedTransactions.map(group => (
+                <div key={group.date} className="transaction-group">
+                    <div className="group-header">
+                        <span className="group-date">{group.displayDate}</span>
+                        <span className="group-count">{group.transactions.length} transactions</span>
+                    </div>
+                    <div className="group-items">
+                        {group.transactions.map(transaction => (
+                            <div
+                                key={transaction.id}
+                                className="enhanced-transaction-item"
+                                onClick={() => onTransactionClick?.(transaction)}
+                            >
+                                <CategoryIcon
+                                    category={transaction.category}
+                                    type={transaction.type}
+                                />
+                                <div className="transaction-details">
+                                    <div className="transaction-title">{transaction.category}</div>
+                                    {transaction.notes && (
+                                        <div className="transaction-note">{transaction.notes}</div>
+                                    )}
+                                    <div className="transaction-account">Cash</div>
+                                </div>
+                                <div className={`transaction-amount ${transaction.type}`}>
+                                    {transaction.type === 'income' ? '+' : '-'}
+                                    {formatCurrency(transaction.amount, settings.currency)}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+};
+
+export default EnhancedTransactionList;

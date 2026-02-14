@@ -1,0 +1,17 @@
+.transactions-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: var(--color-background);
+    overflow: hidden;
+}
+
+/* Mobile-first responsive layout */
+@media (min-width: 768px) {
+    .transactions-page {
+        max-width: 480px;
+        margin: 0 auto;
+        border-left: 1px solid var(--color-border);
+        border-right: 1px solid var(--color-border);
+    }
+}
